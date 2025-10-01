@@ -1,0 +1,11 @@
+start	end	min_travel_time	max_travel_time	distance_m	line
+ehvapt	ehvbst	21	23	10250	400
+ehvbst	ehvapt	21	23	10708	400
+ehvapt	ehvbst	22	25	9050	401
+ehvbst	ehvapt	22	24	9003	401
+ehvapt	ehvbst	20	20	8600	
+ehvbst	ehvapt	20	20	8600	
+ehvbst	ehvgar	4	4	1650	
+ehvgar	ehvbst	4	4	1650	
+ehvapt	ehvgar	20	20	9000	
+ehvgar	ehvapt	20	20	9000	

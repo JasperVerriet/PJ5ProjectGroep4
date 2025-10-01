@@ -1,0 +1,721 @@
+start location	end location	start time	end time	activity	line	energy consumption	bus
+ehvgar	ehvbst	05:03:00	05:07:00	material trip		1.98	1
+ehvbst	ehvapt	05:07:00	05:31:00	service trip	401	10.8036	1
+ehvapt	ehvapt	05:31:00	06:04:00	idle		5	1
+ehvapt	ehvbst	06:04:00	06:29:00	service trip	401	10.86	1
+ehvbst	ehvbst	06:29:00	06:31:00	idle		5	1
+ehvbst	ehvapt	06:31:00	06:55:00	service trip	401	10.8036	1
+ehvapt	ehvapt	06:55:00	06:56:00	idle		5	1
+ehvapt	ehvbst	06:56:00	07:21:00	service trip	401	10.86	1
+ehvbst	ehvbst	07:21:00	07:21:00	idle		5	1
+ehvbst	ehvapt	07:21:00	07:45:00	service trip	400	12.8496	1
+ehvapt	ehvapt	07:45:00	07:46:00	idle		5	1
+ehvapt	ehvbst	07:46:00	08:11:00	service trip	401	10.86	1
+ehvbst	ehvapt	08:11:00	08:31:00	material trip		10.32	1
+ehvapt	ehvbst	08:36:00	09:01:00	service trip	401	10.86	1
+ehvbst	ehvapt	09:01:00	09:21:00	material trip		10.32	1
+ehvapt	ehvbst	09:26:00	09:51:00	service trip	401	10.86	1
+ehvbst	ehvapt	09:51:00	10:11:00	material trip		10.32	1
+ehvapt	ehvbst	10:16:00	10:41:00	service trip	401	10.86	1
+ehvbst	ehvapt	10:41:00	11:01:00	material trip		10.32	1
+ehvapt	ehvbst	11:06:00	11:31:00	service trip	401	10.86	1
+ehvbst	ehvapt	11:31:00	11:51:00	material trip		10.32	1
+ehvapt	ehvbst	11:56:00	12:21:00	service trip	401	10.86	1
+ehvbst	ehvapt	12:21:00	12:41:00	material trip		10.32	1
+ehvapt	ehvbst	12:46:00	13:11:00	service trip	401	10.86	1
+ehvbst	ehvapt	13:11:00	13:31:00	material trip		10.32	1
+ehvapt	ehvbst	13:36:00	14:01:00	service trip	401	10.86	1
+ehvbst	ehvapt	14:01:00	14:21:00	material trip		10.32	1
+ehvapt	ehvbst	14:26:00	14:51:00	service trip	401	10.86	1
+ehvbst	ehvgar	14:51:00	14:55:00	material trip		-157.5	1
+ehvgar	ehvgar	14:55:00	15:16:00	charging		1.98	1
+ehvgar	ehvapt	15:16:00	15:36:00	material trip		10.8	1
+ehvapt	ehvbst	15:36:00	16:01:00	service trip	401	10.86	1
+ehvbst	ehvapt	16:01:00	16:21:00	material trip		10.32	1
+ehvapt	ehvbst	16:26:00	16:51:00	service trip	401	10.86	1
+ehvbst	ehvapt	16:51:00	17:15:00	service trip	400	12.8496	1
+ehvbst	ehvbst	16:51:00	16:51:00	idle		5	1
+ehvapt	ehvapt	17:15:00	17:16:00	idle		5	1
+ehvapt	ehvbst	17:16:00	17:41:00	service trip	401	10.86	1
+ehvbst	ehvapt	17:41:00	18:01:00	material trip		10.32	1
+ehvapt	ehvbst	18:06:00	18:31:00	service trip	401	10.86	1
+ehvbst	ehvapt	18:31:00	18:51:00	material trip		10.32	1
+ehvapt	ehvbst	18:56:00	19:21:00	service trip	401	10.86	1
+ehvbst	ehvapt	19:21:00	19:41:00	material trip		10.32	1
+ehvapt	ehvbst	19:41:00	20:06:00	service trip	401	10.86	1
+ehvbst	ehvbst	20:06:00	20:07:00	idle		5	1
+ehvbst	ehvapt	20:07:00	20:31:00	service trip	401	10.8036	1
+ehvapt	ehvapt	20:31:00	20:35:00	idle		5	1
+ehvapt	ehvbst	20:35:00	21:00:00	service trip	401	10.86	1
+ehvbst	ehvgar	21:00:00	21:04:00	material trip		1.98	1
+ehvgar	ehvgar	21:04:00	21:32:00	charging		-210	1
+ehvgar	ehvbst	21:32:00	21:36:00	material trip		1.98	1
+ehvbst	ehvapt	21:37:00	22:01:00	service trip	401	10.8036	1
+ehvapt	ehvapt	22:01:00	22:05:00	idle		5	1
+ehvapt	ehvbst	22:05:00	22:30:00	service trip	401	10.86	1
+ehvbst	ehvbst	22:30:00	22:37:00	idle		5	1
+ehvbst	ehvapt	22:37:00	23:01:00	service trip	401	10.8036	1
+ehvapt	ehvapt	23:01:00	23:05:00	idle		5	1
+ehvapt	ehvbst	23:05:00	23:30:00	service trip	401	10.86	1
+ehvbst	ehvbst	23:30:00	23:37:00	idle		5	1
+ehvbst	ehvapt	23:37:00	00:01:00	service trip	401	10.8036	1
+ehvapt	ehvbst	00:01:00	00:26:00	service trip	401	10.86	1
+ehvapt	ehvapt	00:01:00	00:01:00	idle		5	1
+ehvbst	ehvgar	00:26:00	00:30:00	material trip		1.98	1
+ehvgar	ehvbst	05:33:00	05:37:00	material trip		1.98	2
+ehvbst	ehvapt	05:37:00	06:01:00	service trip	401	10.8036	2
+ehvapt	ehvapt	06:01:00	06:34:00	idle		5	2
+ehvapt	ehvbst	06:34:00	06:59:00	service trip	401	10.86	2
+ehvbst	ehvapt	06:59:00	07:23:00	service trip	401	10.8036	2
+ehvbst	ehvbst	06:59:00	06:59:00	idle		5	2
+ehvapt	ehvapt	07:23:00	07:26:00	idle		5	2
+ehvapt	ehvbst	07:26:00	07:51:00	service trip	401	10.86	2
+ehvbst	ehvbst	07:51:00	07:51:00	idle		5	2
+ehvbst	ehvapt	07:51:00	08:15:00	service trip	400	12.8496	2
+ehvapt	ehvapt	08:15:00	08:16:00	idle		5	2
+ehvapt	ehvbst	08:16:00	08:41:00	service trip	401	10.86	2
+ehvbst	ehvapt	08:41:00	09:01:00	material trip		10.32	2
+ehvapt	ehvbst	09:06:00	09:31:00	service trip	401	10.86	2
+ehvbst	ehvapt	09:31:00	09:51:00	material trip		10.32	2
+ehvapt	ehvbst	09:56:00	10:21:00	service trip	401	10.86	2
+ehvbst	ehvapt	10:21:00	10:41:00	material trip		10.32	2
+ehvapt	ehvbst	10:46:00	11:11:00	service trip	401	10.86	2
+ehvbst	ehvapt	11:11:00	11:31:00	material trip		10.32	2
+ehvapt	ehvbst	11:36:00	12:01:00	service trip	401	10.86	2
+ehvbst	ehvapt	12:01:00	12:21:00	material trip		10.32	2
+ehvapt	ehvbst	12:26:00	12:51:00	service trip	401	10.86	2
+ehvbst	ehvapt	12:51:00	13:11:00	material trip		10.32	2
+ehvapt	ehvbst	13:16:00	13:41:00	service trip	401	10.86	2
+ehvbst	ehvapt	13:41:00	14:01:00	material trip		10.32	2
+ehvapt	ehvbst	14:06:00	14:31:00	service trip	401	10.86	2
+ehvbst	ehvapt	14:31:00	14:51:00	material trip		10.32	2
+ehvapt	ehvbst	14:56:00	15:21:00	service trip	401	10.86	2
+ehvbst	ehvgar	15:21:00	15:25:00	material trip		1.98	2
+ehvgar	ehvgar	15:25:00	15:46:00	charging		-157.5	2
+ehvgar	ehvapt	15:46:00	16:06:00	material trip		10.8	2
+ehvapt	ehvbst	16:06:00	16:31:00	service trip	401	10.86	2
+ehvbst	ehvapt	16:31:00	16:51:00	material trip		10.32	2
+ehvapt	ehvbst	16:56:00	17:21:00	service trip	401	10.86	2
+ehvbst	ehvapt	17:21:00	17:45:00	service trip	400	12.8496	2
+ehvbst	ehvbst	17:21:00	17:21:00	idle		5	2
+ehvapt	ehvapt	17:45:00	17:46:00	idle		5	2
+ehvapt	ehvbst	17:46:00	18:11:00	service trip	401	10.86	2
+ehvbst	ehvbst	18:11:00	18:14:00	idle		5	2
+ehvbst	ehvapt	18:14:00	18:38:00	service trip	401	10.8036	2
+ehvapt	ehvapt	18:38:00	18:41:00	idle		5	2
+ehvapt	ehvbst	18:41:00	19:06:00	service trip	401	10.86	2
+ehvbst	ehvapt	19:06:00	19:26:00	material trip		10.32	2
+ehvapt	ehvbst	19:26:00	19:51:00	service trip	401	10.86	2
+ehvbst	ehvapt	19:51:00	20:11:00	material trip		10.32	2
+ehvapt	ehvbst	20:11:00	20:36:00	service trip	401	10.86	2
+ehvbst	ehvbst	20:36:00	20:37:00	idle		5	2
+ehvbst	ehvapt	20:37:00	21:01:00	service trip	401	10.8036	2
+ehvapt	ehvapt	21:01:00	21:05:00	idle		5	2
+ehvapt	ehvbst	21:05:00	21:30:00	service trip	401	10.86	2
+ehvbst	ehvgar	21:30:00	21:34:00	material trip		1.98	2
+ehvgar	ehvgar	21:34:00	22:02:00	charging		-210	2
+ehvgar	ehvbst	22:02:00	22:06:00	material trip		1.98	2
+ehvbst	ehvapt	22:07:00	22:31:00	service trip	401	10.8036	2
+ehvapt	ehvapt	22:31:00	22:35:00	idle		5	2
+ehvapt	ehvbst	22:35:00	23:00:00	service trip	401	10.86	2
+ehvbst	ehvbst	23:00:00	23:07:00	idle		5	2
+ehvbst	ehvapt	23:07:00	23:31:00	service trip	401	10.8036	2
+ehvapt	ehvapt	23:31:00	23:35:00	idle		5	2
+ehvapt	ehvbst	23:35:00	00:00:00	service trip	401	10.86	2
+ehvbst	ehvapt	00:00:00	00:20:00	material trip		10.32	2
+ehvapt	ehvbst	00:31:00	00:56:00	service trip	401	10.86	2
+ehvbst	ehvgar	00:56:00	01:00:00	material trip		1.98	2
+ehvgar	ehvbst	06:03:00	06:07:00	material trip		1.98	3
+ehvbst	ehvapt	06:07:00	06:31:00	service trip	401	10.8036	3
+ehvapt	ehvapt	06:31:00	07:11:00	idle		5	3
+ehvapt	ehvbst	07:11:00	07:36:00	service trip	401	10.86	3
+ehvbst	ehvapt	07:36:00	07:56:00	material trip		10.32	3
+ehvapt	ehvbst	07:56:00	08:21:00	service trip	401	10.86	3
+ehvbst	ehvbst	08:21:00	08:21:00	idle		5	3
+ehvbst	ehvapt	08:21:00	08:45:00	service trip	400	12.8496	3
+ehvapt	ehvapt	08:45:00	08:46:00	idle		5	3
+ehvapt	ehvbst	08:46:00	09:11:00	service trip	401	10.86	3
+ehvbst	ehvapt	09:11:00	09:31:00	material trip		10.32	3
+ehvapt	ehvbst	09:36:00	10:01:00	service trip	401	10.86	3
+ehvbst	ehvapt	10:01:00	10:21:00	material trip		10.32	3
+ehvapt	ehvbst	10:26:00	10:51:00	service trip	401	10.86	3
+ehvbst	ehvbst	10:51:00	10:51:00	idle		5	3
+ehvbst	ehvapt	10:51:00	11:15:00	service trip	400	12.8496	3
+ehvapt	ehvapt	11:15:00	11:16:00	idle		5	3
+ehvapt	ehvbst	11:16:00	11:41:00	service trip	401	10.86	3
+ehvbst	ehvapt	11:41:00	12:01:00	material trip		10.32	3
+ehvapt	ehvbst	12:06:00	12:31:00	service trip	401	10.86	3
+ehvbst	ehvapt	12:31:00	12:51:00	material trip		10.32	3
+ehvapt	ehvbst	12:56:00	13:21:00	service trip	401	10.86	3
+ehvbst	ehvapt	13:21:00	13:41:00	material trip		10.32	3
+ehvapt	ehvbst	13:46:00	14:11:00	service trip	401	10.86	3
+ehvbst	ehvapt	14:11:00	14:31:00	material trip		10.32	3
+ehvapt	ehvbst	14:36:00	15:01:00	service trip	401	10.86	3
+ehvbst	ehvapt	15:01:00	15:21:00	material trip		10.32	3
+ehvapt	ehvbst	15:26:00	15:51:00	service trip	401	10.86	3
+ehvbst	ehvgar	15:51:00	15:55:00	material trip		1.98	3
+ehvgar	ehvgar	15:55:00	16:16:00	charging		-157.5	3
+ehvgar	ehvapt	16:16:00	16:36:00	material trip		10.8	3
+ehvapt	ehvbst	16:36:00	17:01:00	service trip	401	10.86	3
+ehvbst	ehvapt	17:01:00	17:21:00	material trip		10.32	3
+ehvapt	ehvbst	17:26:00	17:51:00	service trip	401	10.86	3
+ehvbst	ehvapt	17:51:00	18:15:00	service trip	400	12.8496	3
+ehvbst	ehvbst	17:51:00	17:51:00	idle		5	3
+ehvapt	ehvapt	18:15:00	18:16:00	idle		5	3
+ehvapt	ehvbst	18:16:00	18:41:00	service trip	401	10.86	3
+ehvbst	ehvbst	18:41:00	18:44:00	idle		5	3
+ehvbst	ehvapt	18:44:00	19:08:00	service trip	401	10.8036	3
+ehvapt	ehvapt	19:08:00	19:11:00	idle		5	3
+ehvapt	ehvbst	19:11:00	19:36:00	service trip	401	10.86	3
+ehvbst	ehvapt	19:36:00	19:56:00	material trip		10.32	3
+ehvapt	ehvbst	19:56:00	20:21:00	service trip	401	10.86	3
+ehvbst	ehvbst	20:21:00	20:22:00	idle		5	3
+ehvbst	ehvapt	20:22:00	20:46:00	service trip	401	10.8036	3
+ehvapt	ehvbst	20:46:00	21:10:00	service trip	400	12.3	3
+ehvapt	ehvapt	20:46:00	20:46:00	idle		5	3
+ehvbst	ehvapt	21:10:00	21:30:00	material trip		10.32	3
+ehvapt	ehvbst	21:35:00	22:00:00	service trip	401	10.86	3
+ehvbst	ehvgar	22:00:00	22:04:00	material trip		1.98	3
+ehvgar	ehvgar	22:04:00	22:33:00	charging		-217.5	3
+ehvgar	ehvbst	22:33:00	22:37:00	material trip		1.98	3
+ehvbst	ehvapt	00:09:00	00:33:00	service trip	401	10.8036	3
+ehvapt	ehvgar	00:33:00	00:53:00	material trip		10.8	3
+ehvgar	ehvbst	06:42:00	06:46:00	material trip		1.98	4
+ehvbst	ehvapt	06:46:00	07:10:00	service trip	401	10.8036	4
+ehvapt	ehvapt	07:10:00	07:36:00	idle		5	4
+ehvapt	ehvbst	07:36:00	08:01:00	service trip	401	10.86	4
+ehvbst	ehvapt	08:01:00	08:21:00	material trip		10.32	4
+ehvapt	ehvbst	08:26:00	08:51:00	service trip	401	10.86	4
+ehvbst	ehvbst	08:51:00	08:51:00	idle		5	4
+ehvbst	ehvapt	08:51:00	09:15:00	service trip	400	12.8496	4
+ehvapt	ehvapt	09:15:00	09:16:00	idle		5	4
+ehvapt	ehvbst	09:16:00	09:41:00	service trip	401	10.86	4
+ehvbst	ehvapt	09:41:00	10:01:00	material trip		10.32	4
+ehvapt	ehvbst	10:06:00	10:31:00	service trip	401	10.86	4
+ehvbst	ehvapt	10:31:00	10:51:00	material trip		10.32	4
+ehvapt	ehvbst	10:56:00	11:21:00	service trip	401	10.86	4
+ehvbst	ehvbst	11:21:00	11:21:00	idle		5	4
+ehvbst	ehvapt	11:21:00	11:45:00	service trip	400	12.8496	4
+ehvapt	ehvapt	11:45:00	11:46:00	idle		5	4
+ehvapt	ehvbst	11:46:00	12:11:00	service trip	401	10.86	4
+ehvbst	ehvapt	12:11:00	12:31:00	material trip		10.32	4
+ehvapt	ehvbst	12:36:00	13:01:00	service trip	401	10.86	4
+ehvbst	ehvapt	13:01:00	13:21:00	material trip		10.32	4
+ehvapt	ehvbst	13:26:00	13:51:00	service trip	401	10.86	4
+ehvbst	ehvapt	13:51:00	14:11:00	material trip		10.32	4
+ehvapt	ehvbst	14:16:00	14:41:00	service trip	401	10.86	4
+ehvbst	ehvapt	14:41:00	15:01:00	material trip		10.32	4
+ehvapt	ehvbst	15:06:00	15:31:00	service trip	401	10.86	4
+ehvbst	ehvapt	15:31:00	15:51:00	material trip		10.32	4
+ehvapt	ehvbst	15:56:00	16:21:00	service trip	401	10.86	4
+ehvbst	ehvgar	16:21:00	16:25:00	material trip		1.98	4
+ehvgar	ehvgar	16:25:00	16:46:00	charging		-157.5	4
+ehvgar	ehvapt	16:46:00	17:06:00	material trip		10.8	4
+ehvapt	ehvbst	17:06:00	17:31:00	service trip	401	10.86	4
+ehvbst	ehvapt	17:31:00	17:51:00	material trip		10.32	4
+ehvapt	ehvbst	17:56:00	18:21:00	service trip	401	10.86	4
+ehvbst	ehvbst	18:21:00	18:22:00	idle		5	4
+ehvbst	ehvapt	18:22:00	18:46:00	service trip	400	12.8496	4
+ehvapt	ehvapt	18:46:00	18:49:00	idle		5	4
+ehvapt	ehvbst	18:49:00	19:13:00	service trip	400	12.3	4
+ehvbst	ehvapt	19:13:00	19:33:00	material trip		10.32	4
+ehvapt	ehvbst	19:34:00	19:58:00	service trip	400	12.3	4
+ehvbst	ehvgar	19:58:00	20:02:00	material trip		1.98	4
+ehvgar	ehvgar	20:02:00	20:22:00	charging		-150	4
+ehvgar	ehvbst	20:22:00	20:26:00	material trip		1.98	4
+ehvbst	ehvapt	21:07:00	21:31:00	service trip	401	10.8036	4
+ehvapt	ehvgar	21:31:00	21:51:00	material trip		10.8	4
+ehvgar	ehvbst	07:05:00	07:09:00	material trip		1.98	5
+ehvbst	ehvapt	07:09:00	07:33:00	service trip	401	10.8036	5
+ehvapt	ehvapt	07:33:00	08:06:00	idle		5	5
+ehvapt	ehvbst	08:06:00	08:31:00	service trip	401	10.86	5
+ehvbst	ehvapt	08:31:00	08:51:00	material trip		10.32	5
+ehvapt	ehvbst	08:56:00	09:21:00	service trip	401	10.86	5
+ehvbst	ehvbst	09:21:00	09:21:00	idle		5	5
+ehvbst	ehvapt	09:21:00	09:45:00	service trip	400	12.8496	5
+ehvapt	ehvapt	09:45:00	09:46:00	idle		5	5
+ehvapt	ehvbst	09:46:00	10:11:00	service trip	401	10.86	5
+ehvbst	ehvapt	10:11:00	10:31:00	material trip		10.32	5
+ehvapt	ehvbst	10:36:00	11:01:00	service trip	401	10.86	5
+ehvbst	ehvapt	11:01:00	11:21:00	material trip		10.32	5
+ehvapt	ehvbst	11:26:00	11:51:00	service trip	401	10.86	5
+ehvbst	ehvapt	11:51:00	12:11:00	material trip		10.32	5
+ehvapt	ehvbst	12:16:00	12:41:00	service trip	401	10.86	5
+ehvbst	ehvapt	12:41:00	13:01:00	material trip		10.32	5
+ehvapt	ehvbst	13:06:00	13:31:00	service trip	401	10.86	5
+ehvbst	ehvapt	13:31:00	13:51:00	material trip		10.32	5
+ehvapt	ehvbst	13:56:00	14:21:00	service trip	401	10.86	5
+ehvbst	ehvapt	14:21:00	14:41:00	material trip		10.32	5
+ehvapt	ehvbst	14:46:00	15:11:00	service trip	401	10.86	5
+ehvbst	ehvbst	15:11:00	15:19:00	idle		5	5
+ehvbst	ehvapt	15:19:00	15:43:00	service trip	401	10.8036	5
+ehvapt	ehvapt	15:43:00	15:46:00	idle		5	5
+ehvapt	ehvbst	15:46:00	16:11:00	service trip	401	10.86	5
+ehvbst	ehvbst	16:11:00	16:19:00	idle		5	5
+ehvbst	ehvapt	16:19:00	16:43:00	service trip	401	10.8036	5
+ehvapt	ehvapt	16:43:00	16:46:00	idle		5	5
+ehvapt	ehvbst	16:46:00	17:11:00	service trip	401	10.86	5
+ehvbst	ehvgar	17:11:00	17:15:00	material trip		1.98	5
+ehvgar	ehvgar	17:15:00	17:35:00	charging		-150	5
+ehvgar	ehvbst	17:35:00	17:39:00	material trip		1.98	5
+ehvbst	ehvapt	17:39:00	18:03:00	service trip	401	10.8036	5
+ehvapt	ehvapt	18:03:00	18:26:00	idle		5	5
+ehvapt	ehvbst	18:26:00	18:51:00	service trip	401	10.86	5
+ehvbst	ehvbst	18:51:00	18:52:00	idle		5	5
+ehvbst	ehvapt	18:52:00	19:16:00	service trip	400	12.8496	5
+ehvapt	ehvapt	19:16:00	19:19:00	idle		5	5
+ehvapt	ehvbst	19:19:00	19:43:00	service trip	400	12.3	5
+ehvbst	ehvapt	19:43:00	20:03:00	material trip		10.32	5
+ehvapt	ehvbst	20:04:00	20:28:00	service trip	400	12.3	5
+ehvbst	ehvgar	20:28:00	20:32:00	material trip		1.98	5
+ehvgar	ehvbst	06:48:00	06:52:00	material trip		1.98	6
+ehvbst	ehvapt	06:52:00	07:16:00	service trip	400	12.8496	6
+ehvapt	ehvapt	07:16:00	07:19:00	idle		5	6
+ehvapt	ehvbst	07:19:00	07:43:00	service trip	400	12.3	6
+ehvbst	ehvapt	07:43:00	08:03:00	material trip		10.32	6
+ehvapt	ehvbst	08:04:00	08:28:00	service trip	400	12.3	6
+ehvbst	ehvapt	08:28:00	08:48:00	material trip		10.32	6
+ehvapt	ehvbst	08:49:00	09:13:00	service trip	400	12.3	6
+ehvbst	ehvapt	09:13:00	09:33:00	material trip		10.32	6
+ehvapt	ehvbst	09:34:00	09:58:00	service trip	400	12.3	6
+ehvbst	ehvapt	09:58:00	10:18:00	material trip		10.32	6
+ehvapt	ehvbst	10:19:00	10:43:00	service trip	400	12.3	6
+ehvbst	ehvapt	10:43:00	11:03:00	material trip		10.32	6
+ehvapt	ehvbst	11:04:00	11:28:00	service trip	400	12.3	6
+ehvbst	ehvapt	11:28:00	11:48:00	material trip		10.32	6
+ehvapt	ehvbst	11:49:00	12:13:00	service trip	400	12.3	6
+ehvbst	ehvapt	12:13:00	12:33:00	material trip		10.32	6
+ehvapt	ehvbst	12:34:00	12:58:00	service trip	400	12.3	6
+ehvbst	ehvapt	12:58:00	13:18:00	material trip		10.32	6
+ehvapt	ehvbst	13:19:00	13:43:00	service trip	400	12.3	6
+ehvbst	ehvapt	13:43:00	14:03:00	material trip		10.32	6
+ehvapt	ehvbst	14:04:00	14:28:00	service trip	400	12.3	6
+ehvbst	ehvgar	14:28:00	14:32:00	material trip		1.98	6
+ehvgar	ehvgar	14:32:00	14:56:00	charging		-180	6
+ehvgar	ehvapt	14:56:00	15:16:00	material trip		10.8	6
+ehvapt	ehvbst	15:16:00	15:41:00	service trip	401	10.86	6
+ehvbst	ehvbst	15:41:00	15:49:00	idle		5	6
+ehvbst	ehvapt	15:49:00	16:13:00	service trip	401	10.8036	6
+ehvapt	ehvapt	16:13:00	16:16:00	idle		5	6
+ehvapt	ehvbst	16:16:00	16:41:00	service trip	401	10.86	6
+ehvbst	ehvbst	16:41:00	16:49:00	idle		5	6
+ehvbst	ehvapt	16:49:00	17:13:00	service trip	401	10.8036	6
+ehvapt	ehvapt	17:13:00	17:36:00	idle		5	6
+ehvapt	ehvbst	17:36:00	18:01:00	service trip	401	10.86	6
+ehvbst	ehvapt	18:01:00	18:21:00	material trip		10.32	6
+ehvapt	ehvbst	18:27:00	18:51:00	service trip	400	12.3	6
+ehvbst	ehvbst	18:51:00	18:59:00	idle		5	6
+ehvbst	ehvapt	18:59:00	19:23:00	service trip	401	10.8036	6
+ehvapt	ehvapt	19:23:00	19:27:00	idle		5	6
+ehvapt	ehvbst	19:27:00	19:51:00	service trip	400	12.3	6
+ehvbst	ehvgar	19:51:00	19:55:00	material trip		1.98	6
+ehvgar	ehvbst	07:02:00	07:06:00	material trip		1.98	7
+ehvbst	ehvapt	07:06:00	07:30:00	service trip	400	12.8496	7
+ehvapt	ehvapt	07:30:00	07:34:00	idle		5	7
+ehvapt	ehvbst	07:34:00	07:58:00	service trip	400	12.3	7
+ehvbst	ehvapt	07:58:00	08:18:00	material trip		10.32	7
+ehvapt	ehvbst	08:19:00	08:43:00	service trip	400	12.3	7
+ehvbst	ehvapt	08:43:00	09:03:00	material trip		10.32	7
+ehvapt	ehvbst	09:04:00	09:28:00	service trip	400	12.3	7
+ehvbst	ehvapt	09:28:00	09:48:00	material trip		10.32	7
+ehvapt	ehvbst	09:49:00	10:13:00	service trip	400	12.3	7
+ehvbst	ehvapt	10:13:00	10:33:00	material trip		10.32	7
+ehvapt	ehvbst	10:34:00	10:58:00	service trip	400	12.3	7
+ehvbst	ehvapt	10:58:00	11:18:00	material trip		10.32	7
+ehvapt	ehvbst	11:19:00	11:43:00	service trip	400	12.3	7
+ehvbst	ehvapt	11:43:00	12:03:00	material trip		10.32	7
+ehvapt	ehvbst	12:04:00	12:28:00	service trip	400	12.3	7
+ehvbst	ehvapt	12:28:00	12:48:00	material trip		10.32	7
+ehvapt	ehvbst	12:49:00	13:13:00	service trip	400	12.3	7
+ehvbst	ehvapt	13:13:00	13:33:00	material trip		10.32	7
+ehvapt	ehvbst	13:34:00	13:58:00	service trip	400	12.3	7
+ehvbst	ehvapt	13:58:00	14:18:00	material trip		10.32	7
+ehvapt	ehvbst	14:19:00	14:43:00	service trip	400	12.3	7
+ehvbst	ehvgar	14:43:00	14:47:00	material trip		1.98	7
+ehvgar	ehvgar	14:47:00	15:07:00	charging		-150	7
+ehvgar	ehvapt	15:07:00	15:27:00	material trip		10.8	7
+ehvapt	ehvbst	15:27:00	15:51:00	service trip	400	12.3	7
+ehvbst	ehvapt	15:51:00	16:15:00	service trip	400	12.8496	7
+ehvbst	ehvbst	15:51:00	15:51:00	idle		5	7
+ehvapt	ehvapt	16:15:00	16:19:00	idle		5	7
+ehvapt	ehvbst	16:19:00	16:43:00	service trip	400	12.3	7
+ehvbst	ehvapt	16:43:00	17:03:00	material trip		10.32	7
+ehvapt	ehvbst	17:04:00	17:28:00	service trip	400	12.3	7
+ehvbst	ehvapt	17:28:00	17:48:00	material trip		10.32	7
+ehvapt	ehvbst	17:49:00	18:13:00	service trip	400	12.3	7
+ehvbst	ehvapt	18:13:00	18:33:00	material trip		10.32	7
+ehvapt	ehvbst	18:34:00	18:58:00	service trip	400	12.3	7
+ehvbst	ehvbst	18:58:00	19:14:00	idle		5	7
+ehvbst	ehvapt	19:14:00	19:38:00	service trip	401	10.8036	7
+ehvapt	ehvapt	19:38:00	19:49:00	idle		5	7
+ehvapt	ehvbst	19:49:00	20:13:00	service trip	400	12.3	7
+ehvbst	ehvgar	20:13:00	20:17:00	material trip		1.98	7
+ehvgar	ehvbst	07:15:00	07:19:00	material trip		1.98	8
+ehvbst	ehvapt	07:19:00	07:43:00	service trip	401	10.8036	8
+ehvapt	ehvapt	07:43:00	07:49:00	idle		5	8
+ehvapt	ehvbst	07:49:00	08:13:00	service trip	400	12.3	8
+ehvbst	ehvapt	08:13:00	08:33:00	material trip		10.32	8
+ehvapt	ehvbst	08:34:00	08:58:00	service trip	400	12.3	8
+ehvbst	ehvapt	08:58:00	09:18:00	material trip		10.32	8
+ehvapt	ehvbst	09:19:00	09:43:00	service trip	400	12.3	8
+ehvbst	ehvapt	09:43:00	10:03:00	material trip		10.32	8
+ehvapt	ehvbst	10:04:00	10:28:00	service trip	400	12.3	8
+ehvbst	ehvapt	10:28:00	10:48:00	material trip		10.32	8
+ehvapt	ehvbst	10:49:00	11:13:00	service trip	400	12.3	8
+ehvbst	ehvapt	11:13:00	11:33:00	material trip		10.32	8
+ehvapt	ehvbst	11:34:00	11:58:00	service trip	400	12.3	8
+ehvbst	ehvapt	11:58:00	12:18:00	material trip		10.32	8
+ehvapt	ehvbst	12:19:00	12:43:00	service trip	400	12.3	8
+ehvbst	ehvapt	12:43:00	13:03:00	material trip		10.32	8
+ehvapt	ehvbst	13:04:00	13:28:00	service trip	400	12.3	8
+ehvbst	ehvapt	13:28:00	13:48:00	material trip		10.32	8
+ehvapt	ehvbst	13:49:00	14:13:00	service trip	400	12.3	8
+ehvbst	ehvapt	14:13:00	14:33:00	material trip		10.32	8
+ehvapt	ehvbst	14:34:00	14:58:00	service trip	400	12.3	8
+ehvbst	ehvgar	14:58:00	15:02:00	material trip		1.98	8
+ehvgar	ehvgar	15:02:00	15:20:00	charging		-135	8
+ehvgar	ehvbst	15:20:00	15:24:00	material trip		1.98	8
+ehvbst	ehvapt	15:24:00	15:48:00	service trip	400	12.8496	8
+ehvapt	ehvapt	15:48:00	15:49:00	idle		5	8
+ehvapt	ehvbst	15:49:00	16:13:00	service trip	400	12.3	8
+ehvbst	ehvapt	16:13:00	16:33:00	material trip		10.32	8
+ehvapt	ehvbst	16:34:00	16:58:00	service trip	400	12.3	8
+ehvbst	ehvapt	16:58:00	17:18:00	material trip		10.32	8
+ehvapt	ehvbst	17:19:00	17:43:00	service trip	400	12.3	8
+ehvbst	ehvapt	17:43:00	18:03:00	material trip		10.32	8
+ehvapt	ehvbst	18:04:00	18:28:00	service trip	400	12.3	8
+ehvbst	ehvbst	18:28:00	18:29:00	idle		5	8
+ehvbst	ehvapt	18:29:00	18:53:00	service trip	401	10.8036	8
+ehvapt	ehvapt	18:53:00	18:57:00	idle		5	8
+ehvapt	ehvbst	18:57:00	19:21:00	service trip	400	12.3	8
+ehvbst	ehvbst	19:21:00	19:29:00	idle		5	8
+ehvbst	ehvapt	19:29:00	19:53:00	service trip	401	10.8036	8
+ehvapt	ehvgar	19:53:00	20:13:00	material trip		10.8	8
+ehvgar	ehvbst	07:25:00	07:29:00	material trip		1.98	9
+ehvbst	ehvapt	07:29:00	07:53:00	service trip	401	10.8036	9
+ehvapt	ehvapt	07:53:00	08:27:00	idle		5	9
+ehvapt	ehvbst	08:27:00	08:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	08:51:00	08:59:00	idle		5	9
+ehvbst	ehvapt	08:59:00	09:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	09:23:00	09:27:00	idle		5	9
+ehvapt	ehvbst	09:27:00	09:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	09:51:00	09:59:00	idle		5	9
+ehvbst	ehvapt	09:59:00	10:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	10:23:00	10:27:00	idle		5	9
+ehvapt	ehvbst	10:27:00	10:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	10:51:00	10:59:00	idle		5	9
+ehvbst	ehvapt	10:59:00	11:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	11:23:00	11:27:00	idle		5	9
+ehvapt	ehvbst	11:27:00	11:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	11:51:00	11:59:00	idle		5	9
+ehvbst	ehvapt	11:59:00	12:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	12:23:00	12:27:00	idle		5	9
+ehvapt	ehvbst	12:27:00	12:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	12:51:00	12:59:00	idle		5	9
+ehvbst	ehvapt	12:59:00	13:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	13:23:00	13:27:00	idle		5	9
+ehvapt	ehvbst	13:27:00	13:51:00	service trip	400	12.3	9
+ehvbst	ehvbst	13:51:00	13:59:00	idle		5	9
+ehvbst	ehvapt	13:59:00	14:23:00	service trip	401	10.8036	9
+ehvapt	ehvapt	14:23:00	14:27:00	idle		5	9
+ehvapt	ehvbst	14:27:00	14:51:00	service trip	400	12.3	9
+ehvbst	ehvapt	14:51:00	15:15:00	service trip	400	12.8496	9
+ehvbst	ehvbst	14:51:00	14:51:00	idle		5	9
+ehvapt	ehvapt	15:15:00	15:19:00	idle		5	9
+ehvapt	ehvbst	15:19:00	15:43:00	service trip	400	12.3	9
+ehvbst	ehvapt	15:43:00	16:03:00	material trip		10.32	9
+ehvapt	ehvbst	16:04:00	16:28:00	service trip	400	12.3	9
+ehvbst	ehvapt	16:28:00	16:48:00	material trip		10.32	9
+ehvapt	ehvbst	16:49:00	17:13:00	service trip	400	12.3	9
+ehvbst	ehvgar	17:13:00	17:17:00	material trip		1.98	9
+ehvgar	ehvgar	17:17:00	17:37:00	charging		-150	9
+ehvgar	ehvapt	17:37:00	17:57:00	material trip		10.8	9
+ehvapt	ehvbst	17:57:00	18:21:00	service trip	400	12.3	9
+ehvbst	ehvbst	18:21:00	18:24:00	idle		5	9
+ehvbst	ehvapt	18:24:00	18:48:00	service trip	400	12.8496	9
+ehvapt	ehvapt	18:48:00	19:04:00	idle		5	9
+ehvapt	ehvbst	19:04:00	19:28:00	service trip	400	12.3	9
+ehvbst	ehvbst	19:28:00	19:44:00	idle		5	9
+ehvbst	ehvapt	19:44:00	20:08:00	service trip	401	10.8036	9
+ehvapt	ehvgar	20:08:00	20:28:00	material trip		10.8	9
+ehvgar	ehvbst	07:35:00	07:39:00	material trip		1.98	10
+ehvbst	ehvapt	07:39:00	08:03:00	service trip	401	10.8036	10
+ehvapt	ehvapt	08:03:00	08:57:00	idle		5	10
+ehvapt	ehvbst	08:57:00	09:21:00	service trip	400	12.3	10
+ehvbst	ehvbst	09:21:00	09:29:00	idle		5	10
+ehvbst	ehvapt	09:29:00	09:53:00	service trip	401	10.8036	10
+ehvapt	ehvapt	09:53:00	09:57:00	idle		5	10
+ehvapt	ehvbst	09:57:00	10:21:00	service trip	400	12.3	10
+ehvbst	ehvbst	10:21:00	10:29:00	idle		5	10
+ehvbst	ehvapt	10:29:00	10:53:00	service trip	401	10.8036	10
+ehvapt	ehvapt	10:53:00	10:57:00	idle		5	10
+ehvapt	ehvbst	10:57:00	11:21:00	service trip	400	12.3	10
+ehvbst	ehvbst	11:21:00	11:29:00	idle		5	10
+ehvbst	ehvapt	11:29:00	11:53:00	service trip	401	10.8036	10
+ehvapt	ehvapt	11:53:00	11:57:00	idle		5	10
+ehvapt	ehvbst	11:57:00	12:21:00	service trip	400	12.3	10
+ehvbst	ehvbst	12:21:00	12:29:00	idle		5	10
+ehvbst	ehvapt	12:29:00	12:53:00	service trip	401	10.8036	10
+ehvapt	ehvapt	12:53:00	12:57:00	idle		5	10
+ehvapt	ehvbst	12:57:00	13:21:00	service trip	400	12.3	10
+ehvbst	ehvbst	13:21:00	13:29:00	idle		5	10
+ehvbst	ehvapt	13:29:00	13:53:00	service trip	401	10.8036	10
+ehvapt	ehvapt	13:53:00	13:57:00	idle		5	10
+ehvapt	ehvbst	13:57:00	14:21:00	service trip	400	12.3	10
+ehvbst	ehvapt	14:21:00	14:45:00	service trip	400	12.8496	10
+ehvbst	ehvbst	14:21:00	14:21:00	idle		5	10
+ehvapt	ehvapt	14:45:00	14:49:00	idle		5	10
+ehvapt	ehvbst	14:49:00	15:13:00	service trip	400	12.3	10
+ehvbst	ehvapt	15:13:00	15:33:00	material trip		10.32	10
+ehvapt	ehvbst	15:34:00	15:58:00	service trip	400	12.3	10
+ehvbst	ehvbst	15:58:00	15:59:00	idle		5	10
+ehvbst	ehvapt	15:59:00	16:23:00	service trip	401	10.8036	10
+ehvapt	ehvapt	16:23:00	16:27:00	idle		5	10
+ehvapt	ehvbst	16:27:00	16:51:00	service trip	400	12.3	10
+ehvbst	ehvbst	16:51:00	16:59:00	idle		5	10
+ehvbst	ehvapt	16:59:00	17:23:00	service trip	401	10.8036	10
+ehvapt	ehvapt	17:23:00	17:27:00	idle		5	10
+ehvapt	ehvbst	17:27:00	17:51:00	service trip	400	12.3	10
+ehvbst	ehvgar	17:51:00	17:55:00	material trip		1.98	10
+ehvgar	ehvgar	17:55:00	18:23:00	charging		-210	10
+ehvgar	ehvbst	18:23:00	18:27:00	material trip		1.98	10
+ehvbst	ehvapt	18:37:00	19:01:00	service trip	400	12.8496	10
+ehvapt	ehvbst	19:01:00	19:21:00	material trip		10.32	10
+ehvbst	ehvapt	19:22:00	19:46:00	service trip	400	12.8496	10
+ehvapt	ehvgar	19:46:00	20:06:00	material trip		10.8	10
+ehvgar	ehvbst	07:45:00	07:49:00	material trip		1.98	11
+ehvbst	ehvapt	07:49:00	08:13:00	service trip	401	10.8036	11
+ehvapt	ehvbst	08:13:00	08:33:00	material trip		10.32	11
+ehvbst	ehvapt	08:39:00	09:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	09:03:00	09:23:00	material trip		10.32	11
+ehvbst	ehvapt	09:39:00	10:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	10:03:00	10:23:00	material trip		10.32	11
+ehvbst	ehvapt	10:39:00	11:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	11:03:00	11:23:00	material trip		10.32	11
+ehvbst	ehvapt	11:39:00	12:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	12:03:00	12:23:00	material trip		10.32	11
+ehvbst	ehvapt	12:39:00	13:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	13:03:00	13:23:00	material trip		10.32	11
+ehvbst	ehvapt	13:39:00	14:03:00	service trip	401	10.8036	11
+ehvapt	ehvbst	14:03:00	14:23:00	material trip		10.32	11
+ehvbst	ehvapt	14:29:00	14:53:00	service trip	401	10.8036	11
+ehvapt	ehvapt	14:53:00	14:57:00	idle		5	11
+ehvapt	ehvbst	14:57:00	15:21:00	service trip	400	12.3	11
+ehvbst	ehvbst	15:21:00	15:29:00	idle		5	11
+ehvbst	ehvapt	15:29:00	15:53:00	service trip	401	10.8036	11
+ehvapt	ehvapt	15:53:00	15:57:00	idle		5	11
+ehvapt	ehvbst	15:57:00	16:21:00	service trip	400	12.3	11
+ehvbst	ehvbst	16:21:00	16:29:00	idle		5	11
+ehvbst	ehvapt	16:29:00	16:53:00	service trip	401	10.8036	11
+ehvapt	ehvapt	16:53:00	16:57:00	idle		5	11
+ehvapt	ehvbst	16:57:00	17:21:00	service trip	400	12.3	11
+ehvbst	ehvgar	17:21:00	17:25:00	material trip		1.98	11
+ehvgar	ehvgar	17:25:00	17:45:00	charging		-150	11
+ehvgar	ehvbst	17:45:00	17:49:00	material trip		1.98	11
+ehvbst	ehvapt	17:49:00	18:13:00	service trip	401	10.8036	11
+ehvapt	ehvapt	18:13:00	18:19:00	idle		5	11
+ehvapt	ehvbst	18:19:00	18:43:00	service trip	400	12.3	11
+ehvbst	ehvbst	18:43:00	18:54:00	idle		5	11
+ehvbst	ehvapt	18:54:00	19:18:00	service trip	400	12.8496	11
+ehvapt	ehvgar	19:18:00	19:38:00	material trip		10.8	11
+ehvgar	ehvbst	07:55:00	07:59:00	material trip		1.98	12
+ehvbst	ehvapt	07:59:00	08:23:00	service trip	401	10.8036	12
+ehvapt	ehvbst	08:23:00	08:43:00	material trip		10.32	12
+ehvbst	ehvapt	08:49:00	09:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	09:13:00	09:33:00	material trip		10.32	12
+ehvbst	ehvapt	09:49:00	10:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	10:13:00	10:33:00	material trip		10.32	12
+ehvbst	ehvapt	10:49:00	11:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	11:13:00	11:33:00	material trip		10.32	12
+ehvbst	ehvapt	11:49:00	12:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	12:13:00	12:33:00	material trip		10.32	12
+ehvbst	ehvapt	12:49:00	13:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	13:13:00	13:33:00	material trip		10.32	12
+ehvbst	ehvapt	13:49:00	14:13:00	service trip	401	10.8036	12
+ehvapt	ehvbst	14:13:00	14:33:00	material trip		10.32	12
+ehvbst	ehvapt	14:39:00	15:03:00	service trip	401	10.8036	12
+ehvapt	ehvapt	15:03:00	15:04:00	idle		5	12
+ehvapt	ehvbst	15:04:00	15:28:00	service trip	400	12.3	12
+ehvbst	ehvbst	15:28:00	15:39:00	idle		5	12
+ehvbst	ehvapt	15:39:00	16:03:00	service trip	401	10.8036	12
+ehvapt	ehvbst	16:03:00	16:23:00	material trip		10.32	12
+ehvbst	ehvapt	16:39:00	17:03:00	service trip	401	10.8036	12
+ehvapt	ehvapt	17:03:00	17:34:00	idle		5	12
+ehvapt	ehvbst	17:34:00	17:58:00	service trip	400	12.3	12
+ehvbst	ehvbst	17:58:00	17:59:00	idle		5	12
+ehvbst	ehvapt	17:59:00	18:23:00	service trip	401	10.8036	12
+ehvapt	ehvgar	18:23:00	18:43:00	material trip		10.8	12
+ehvgar	ehvgar	18:43:00	19:03:00	charging		-150	12
+ehvgar	ehvbst	19:03:00	19:07:00	material trip		1.98	12
+ehvbst	ehvapt	19:07:00	19:31:00	service trip	400	12.8496	12
+ehvapt	ehvgar	19:31:00	19:51:00	material trip		10.8	12
+ehvgar	ehvbst	08:05:00	08:09:00	material trip		1.98	13
+ehvbst	ehvapt	08:09:00	08:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	08:33:00	08:53:00	material trip		10.32	13
+ehvbst	ehvapt	09:09:00	09:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	09:33:00	09:53:00	material trip		10.32	13
+ehvbst	ehvapt	10:09:00	10:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	10:33:00	10:53:00	material trip		10.32	13
+ehvbst	ehvapt	11:09:00	11:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	11:33:00	11:53:00	material trip		10.32	13
+ehvbst	ehvapt	12:09:00	12:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	12:33:00	12:53:00	material trip		10.32	13
+ehvbst	ehvapt	13:09:00	13:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	13:33:00	13:53:00	material trip		10.32	13
+ehvbst	ehvapt	14:09:00	14:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	14:33:00	14:53:00	material trip		10.32	13
+ehvbst	ehvapt	14:59:00	15:23:00	service trip	401	10.8036	13
+ehvapt	ehvgar	15:23:00	15:43:00	material trip		10.8	13
+ehvgar	ehvgar	15:43:00	16:03:00	charging		-150	13
+ehvgar	ehvbst	16:03:00	16:07:00	material trip		1.98	13
+ehvbst	ehvapt	16:09:00	16:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	16:33:00	16:53:00	material trip		10.32	13
+ehvbst	ehvapt	17:09:00	17:33:00	service trip	401	10.8036	13
+ehvapt	ehvbst	17:33:00	17:53:00	material trip		10.32	13
+ehvbst	ehvapt	17:54:00	18:18:00	service trip	400	12.8496	13
+ehvapt	ehvbst	18:18:00	18:38:00	material trip		10.32	13
+ehvbst	ehvapt	19:37:00	20:01:00	service trip	400	12.8496	13
+ehvapt	ehvgar	20:01:00	20:21:00	material trip		10.8	13
+ehvgar	ehvbst	08:15:00	08:19:00	material trip		1.98	14
+ehvbst	ehvapt	08:19:00	08:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	08:43:00	09:03:00	material trip		10.32	14
+ehvbst	ehvapt	09:19:00	09:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	09:43:00	10:03:00	material trip		10.32	14
+ehvbst	ehvapt	10:19:00	10:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	10:43:00	11:03:00	material trip		10.32	14
+ehvbst	ehvapt	11:19:00	11:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	11:43:00	12:03:00	material trip		10.32	14
+ehvbst	ehvapt	12:19:00	12:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	12:43:00	13:03:00	material trip		10.32	14
+ehvbst	ehvapt	13:19:00	13:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	13:43:00	14:03:00	material trip		10.32	14
+ehvbst	ehvapt	14:19:00	14:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	14:43:00	15:03:00	material trip		10.32	14
+ehvbst	ehvapt	15:09:00	15:33:00	service trip	401	10.8036	14
+ehvapt	ehvbst	15:33:00	15:53:00	material trip		10.32	14
+ehvbst	ehvapt	15:54:00	16:18:00	service trip	400	12.8496	14
+ehvapt	ehvgar	16:18:00	16:38:00	material trip		10.8	14
+ehvgar	ehvgar	16:38:00	17:01:00	charging		-172.5	14
+ehvgar	ehvbst	17:01:00	17:05:00	material trip		1.98	14
+ehvbst	ehvapt	17:19:00	17:43:00	service trip	401	10.8036	14
+ehvapt	ehvbst	17:43:00	18:03:00	material trip		10.32	14
+ehvbst	ehvapt	18:07:00	18:31:00	service trip	400	12.8496	14
+ehvapt	ehvgar	18:31:00	18:51:00	material trip		10.8	14
+ehvgar	ehvbst	07:32:00	07:36:00	material trip		1.98	15
+ehvbst	ehvapt	07:36:00	08:00:00	service trip	400	12.8496	15
+ehvapt	ehvbst	08:00:00	08:20:00	material trip		10.32	15
+ehvbst	ehvapt	08:29:00	08:53:00	service trip	401	10.8036	15
+ehvapt	ehvbst	08:53:00	09:13:00	material trip		10.32	15
+ehvbst	ehvapt	09:24:00	09:48:00	service trip	400	12.8496	15
+ehvapt	ehvbst	09:48:00	10:08:00	material trip		10.32	15
+ehvbst	ehvapt	10:21:00	10:45:00	service trip	400	12.8496	15
+ehvapt	ehvbst	10:45:00	11:05:00	material trip		10.32	15
+ehvbst	ehvapt	11:06:00	11:30:00	service trip	400	12.8496	15
+ehvapt	ehvbst	11:30:00	11:50:00	material trip		10.32	15
+ehvbst	ehvapt	11:51:00	12:15:00	service trip	400	12.8496	15
+ehvapt	ehvbst	12:15:00	12:35:00	material trip		10.32	15
+ehvbst	ehvapt	12:36:00	13:00:00	service trip	400	12.8496	15
+ehvapt	ehvbst	13:00:00	13:20:00	material trip		10.32	15
+ehvbst	ehvapt	13:21:00	13:45:00	service trip	400	12.8496	15
+ehvapt	ehvgar	13:45:00	14:05:00	material trip		10.8	15
+ehvgar	ehvgar	14:05:00	14:27:00	charging		-165	15
+ehvgar	ehvbst	14:27:00	14:31:00	material trip		1.98	15
+ehvbst	ehvapt	14:49:00	15:13:00	service trip	401	10.8036	15
+ehvapt	ehvbst	15:13:00	15:33:00	material trip		10.32	15
+ehvbst	ehvapt	15:36:00	16:00:00	service trip	400	12.8496	15
+ehvapt	ehvbst	16:00:00	16:20:00	material trip		10.32	15
+ehvbst	ehvapt	16:21:00	16:45:00	service trip	400	12.8496	15
+ehvapt	ehvbst	16:45:00	17:05:00	material trip		10.32	15
+ehvbst	ehvapt	17:29:00	17:53:00	service trip	401	10.8036	15
+ehvapt	ehvgar	17:53:00	18:13:00	material trip		10.8	15
+ehvgar	ehvbst	07:50:00	07:54:00	material trip		1.98	16
+ehvbst	ehvapt	07:54:00	08:18:00	service trip	400	12.8496	16
+ehvapt	ehvbst	08:18:00	08:38:00	material trip		10.32	16
+ehvbst	ehvapt	08:54:00	09:18:00	service trip	400	12.8496	16
+ehvapt	ehvbst	09:18:00	09:38:00	material trip		10.32	16
+ehvbst	ehvapt	09:51:00	10:15:00	service trip	400	12.8496	16
+ehvapt	ehvbst	10:15:00	10:35:00	material trip		10.32	16
+ehvbst	ehvapt	10:36:00	11:00:00	service trip	400	12.8496	16
+ehvapt	ehvbst	11:00:00	11:20:00	material trip		10.32	16
+ehvbst	ehvapt	11:24:00	11:48:00	service trip	400	12.8496	16
+ehvapt	ehvbst	11:48:00	12:08:00	material trip		10.32	16
+ehvbst	ehvapt	12:21:00	12:45:00	service trip	400	12.8496	16
+ehvapt	ehvbst	12:45:00	13:05:00	material trip		10.32	16
+ehvbst	ehvapt	13:06:00	13:30:00	service trip	400	12.8496	16
+ehvapt	ehvbst	13:30:00	13:50:00	material trip		10.32	16
+ehvbst	ehvapt	13:51:00	14:15:00	service trip	400	12.8496	16
+ehvapt	ehvbst	14:15:00	14:35:00	material trip		10.32	16
+ehvbst	ehvapt	14:36:00	15:00:00	service trip	400	12.8496	16
+ehvapt	ehvbst	15:00:00	15:20:00	material trip		10.32	16
+ehvbst	ehvapt	15:21:00	15:45:00	service trip	400	12.8496	16
+ehvapt	ehvgar	15:45:00	16:05:00	material trip		10.8	16
+ehvgar	ehvgar	16:05:00	16:32:00	charging		-202.5	16
+ehvgar	ehvbst	16:32:00	16:36:00	material trip		1.98	16
+ehvbst	ehvapt	16:36:00	17:00:00	service trip	400	12.8496	16
+ehvapt	ehvbst	17:00:00	17:20:00	material trip		10.32	16
+ehvbst	ehvapt	17:24:00	17:48:00	service trip	400	12.8496	16
+ehvapt	ehvgar	17:48:00	18:08:00	material trip		10.8	16
+ehvgar	ehvbst	08:02:00	08:06:00	material trip		1.98	17
+ehvbst	ehvapt	08:06:00	08:30:00	service trip	400	12.8496	17
+ehvapt	ehvbst	08:30:00	08:50:00	material trip		10.32	17
+ehvbst	ehvapt	09:06:00	09:30:00	service trip	400	12.8496	17
+ehvapt	ehvbst	09:30:00	09:50:00	material trip		10.32	17
+ehvbst	ehvapt	09:54:00	10:18:00	service trip	400	12.8496	17
+ehvapt	ehvbst	10:18:00	10:38:00	material trip		10.32	17
+ehvbst	ehvapt	10:54:00	11:18:00	service trip	400	12.8496	17
+ehvapt	ehvbst	11:18:00	11:38:00	material trip		10.32	17
+ehvbst	ehvapt	11:54:00	12:18:00	service trip	400	12.8496	17
+ehvapt	ehvbst	12:18:00	12:38:00	material trip		10.32	17
+ehvbst	ehvapt	12:51:00	13:15:00	service trip	400	12.8496	17
+ehvapt	ehvbst	13:15:00	13:35:00	material trip		10.32	17
+ehvbst	ehvapt	13:36:00	14:00:00	service trip	400	12.8496	17
+ehvapt	ehvbst	14:00:00	14:20:00	material trip		10.32	17
+ehvbst	ehvapt	14:24:00	14:48:00	service trip	400	12.8496	17
+ehvapt	ehvgar	14:48:00	15:08:00	material trip		10.8	17
+ehvgar	ehvgar	15:08:00	15:30:00	charging		-165	17
+ehvgar	ehvbst	15:30:00	15:34:00	material trip		1.98	17
+ehvbst	ehvapt	16:06:00	16:30:00	service trip	400	12.8496	17
+ehvapt	ehvbst	16:30:00	16:50:00	material trip		10.32	17
+ehvbst	ehvapt	16:54:00	17:18:00	service trip	400	12.8496	17
+ehvapt	ehvgar	17:18:00	17:38:00	material trip		10.8	17
+ehvgar	ehvbst	08:20:00	08:24:00	material trip		1.98	18
+ehvbst	ehvapt	08:24:00	08:48:00	service trip	400	12.8496	18
+ehvapt	ehvbst	08:48:00	09:08:00	material trip		10.32	18
+ehvbst	ehvapt	09:36:00	10:00:00	service trip	400	12.8496	18
+ehvapt	ehvbst	10:00:00	10:20:00	material trip		10.32	18
+ehvbst	ehvapt	10:24:00	10:48:00	service trip	400	12.8496	18
+ehvapt	ehvbst	10:48:00	11:08:00	material trip		10.32	18
+ehvbst	ehvapt	11:36:00	12:00:00	service trip	400	12.8496	18
+ehvapt	ehvbst	12:00:00	12:20:00	material trip		10.32	18
+ehvbst	ehvapt	12:24:00	12:48:00	service trip	400	12.8496	18
+ehvapt	ehvbst	12:48:00	13:08:00	material trip		10.32	18
+ehvbst	ehvapt	13:24:00	13:48:00	service trip	400	12.8496	18
+ehvapt	ehvgar	13:48:00	14:08:00	material trip		10.8	18
+ehvgar	ehvgar	14:08:00	14:24:00	charging		-120	18
+ehvgar	ehvbst	14:24:00	14:28:00	material trip		1.98	18
+ehvbst	ehvapt	14:54:00	15:18:00	service trip	400	12.8496	18
+ehvapt	ehvbst	15:18:00	15:38:00	material trip		10.32	18
+ehvbst	ehvapt	16:24:00	16:48:00	service trip	400	12.8496	18
+ehvapt	ehvbst	16:48:00	17:08:00	material trip		10.32	18
+ehvbst	ehvapt	17:36:00	18:00:00	service trip	400	12.8496	18
+ehvapt	ehvgar	18:00:00	18:20:00	material trip		10.8	18
+ehvgar	ehvbst	08:32:00	08:36:00	material trip		1.98	19
+ehvbst	ehvapt	08:36:00	09:00:00	service trip	400	12.8496	19
+ehvapt	ehvbst	09:00:00	09:20:00	material trip		10.32	19
+ehvbst	ehvapt	10:06:00	10:30:00	service trip	400	12.8496	19
+ehvapt	ehvbst	10:30:00	10:50:00	material trip		10.32	19
+ehvbst	ehvapt	12:06:00	12:30:00	service trip	400	12.8496	19
+ehvapt	ehvbst	12:30:00	12:50:00	material trip		10.32	19
+ehvbst	ehvapt	12:54:00	13:18:00	service trip	400	12.8496	19
+ehvapt	ehvbst	13:18:00	13:38:00	material trip		10.32	19
+ehvbst	ehvapt	13:54:00	14:18:00	service trip	400	12.8496	19
+ehvapt	ehvbst	14:18:00	14:38:00	material trip		10.32	19
+ehvbst	ehvapt	15:06:00	15:30:00	service trip	400	12.8496	19
+ehvapt	ehvgar	15:30:00	15:50:00	material trip		10.8	19
+ehvgar	ehvgar	15:50:00	16:06:00	charging		-120	19
+ehvgar	ehvbst	16:06:00	16:10:00	material trip		1.98	19
+ehvbst	ehvapt	17:06:00	17:30:00	service trip	400	12.8496	19
+ehvapt	ehvgar	17:30:00	17:50:00	material trip		10.8	19
+ehvgar	ehvbst	14:02:00	14:06:00	material trip		1.98	20
+ehvbst	ehvapt	14:06:00	14:30:00	service trip	400	12.8496	20
+ehvapt	ehvgar	14:30:00	14:50:00	material trip		10.8	20

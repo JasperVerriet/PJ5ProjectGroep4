@@ -5,13 +5,13 @@ import numpy as np
 # Here is the function that loads the Excel file and returns the DataFrame
 def Data_Collection():
     file_path = input("Put your Excel file in here:")
-    df = pd.read_excel(file_path)
+    df = pd.read_excel(file_path, engine='openpyxl')
     return df
 
 # Here is the function that reports missing data in the DataFrame
 def report_missing_data(df):
     missing_data = df.isnull()
-    print("Missing data report:")
+    print(f" Missing data report:\n{missing_data}:")
     return missing_data
 
 df = Data_Collection()

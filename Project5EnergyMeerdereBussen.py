@@ -2,6 +2,12 @@ import pandas as pd
 
 
 def set_energy_variables():
+
+    """
+    Sets the SOH and the minimum and maximum battery level to the desired amount
+    Returns the minimum and maximun battery level
+
+    """
     
     soh = 255  # kWh
     min_battery_level = 0.10 * soh  # 25.5 kWh
@@ -12,6 +18,13 @@ def set_energy_variables():
 
 
 def check_feasible_per_route(min_battery_level, max_battery_level, group_bus):
+    """
+    Checks if each route is feasible in terms of energy levels
+    param min_battery_level: the minimum amount of battery that has to be available in the bus
+    param max_battery_level: the maximum amount of battery the bus can be
+    return: the feasibility of each route plus the energy consumed on all busroutes
+
+    """
 
     total_energy_used = 0
 

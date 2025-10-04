@@ -81,15 +81,19 @@ def Energy_Checker(df):
         for route_index, route in bus_routes.iterrows():
             energy_consumption = route["energy consumption"]
 
+
+
             if energy_consumption > 0:
                 total_energy_used_on_route += energy_consumption
+
+            current_battery_level -= energy_consumption    
+
 
             if current_battery_level - energy_consumption < min_battery_level:
                 print(f"Bus {bus_id}: Battery level will drop below 10% during the route. Route is infeasible.")
                 feasible = False
                 break
 
-        current_battery_level -= energy_consumption    
 
 
 

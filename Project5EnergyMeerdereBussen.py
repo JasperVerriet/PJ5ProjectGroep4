@@ -14,7 +14,7 @@ def set_energy_variables():
     max_battery_level = 0.90 * soh   # 239.5 kWh
 
 
-    return( min_battery_level, max_battery_level,)
+    return( min_battery_level, max_battery_level)
 
 
 def check_feasible_per_route(min_battery_level, max_battery_level, group_bus):
@@ -37,16 +37,21 @@ def check_feasible_per_route(min_battery_level, max_battery_level, group_bus):
         for route_index, route in bus_routes.iterrows():
             energy_consumption = route["energy consumption"]
 
+
+
+            if current_battery_level - energy_consumption < min_battery_level:
+                print(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
+                feasible = False
+                break
+
+            current_battery_level -= energy_consumption    
+
+
             if energy_consumption > 0:
                 total_energy_used_on_route += energy_consumption
 
-            current_battery_level -= energy_consumption
 
-            if current_battery_level < min_battery_level:
-                print(f"Bus {bus_id}: Battery level below 10%, Route is infeasible.")
-                print(f"Bus plan infeasible after busroute {route_index + 1} with battery level: {current_battery_level:.2f} kWh")
-                feasible = False
-                break
+
         
         total_energy_used += total_energy_used_on_route
 

@@ -57,8 +57,6 @@ def Overlap_Checker(df):
     for bus, group in grouped:
         overlaps = check_overlaps(group)
         for o in overlaps:
-            # At the start of each tuple, append the number of the bus of that group.
-            # So that later when printing the results, it is possible to state wich bus has overlap.
             overlap_results.append((bus, *o))
     
     return overlap_results

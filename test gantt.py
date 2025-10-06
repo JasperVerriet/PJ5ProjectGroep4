@@ -7,7 +7,6 @@ datum = "02-10-2025"
 df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
 df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
 
-# 3. Tijd omzetten naar seconden sinds middernacht
 df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second
 df["end_seconds"] = df["end time"].dt.hour * 3600 + df["end time"].dt.minute * 60 + df["end time"].dt.second
 
@@ -15,7 +14,6 @@ activities = df["activity"].unique()
 colours = plt.cm.tab20.colors
 colour_per_activity = {type: colours[i % len(colours)] for i, type in enumerate(activities)}
 
-# 5. Gantt chart plotten
 fig, ax = plt.subplots(figsize=(10, 6))
 
 for bus, begin, eind, type in zip(df["bus"], df["start_seconds"], df["end_seconds"], df["activity"]):

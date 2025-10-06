@@ -17,6 +17,12 @@ for bus_id, bus_routes in group_bus:
     for route_index, route in bus_routes.iterrows():
         energy_consumption = route["energy consumption"]
 
+        if route["activity"] == "idle":
+            start_time = pd.to_datetime(route["start time"])
+            end_time = pd.to_datetime(route["end time"])
+            idle_time_hours = (end_time - start_time).total_seconds() / 3600  
+            energy_consumption = 5 * max(0, idle_time_hours)  
+
         if energy_consumption > 0:
             total_energy_used_on_route += energy_consumption
 

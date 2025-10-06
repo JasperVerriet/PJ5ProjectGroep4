@@ -51,6 +51,7 @@ def replace_empty_gaps_with_idle(df):
             prev_end = current_end
 
     df_filled = pd.DataFrame(filled_rows)
+    df_filled = df_filled[df_filled["end_seconds"] > df_filled["start_seconds"]]
 
     return df_filled 
 
@@ -125,11 +126,22 @@ def plot_gantt_chart(df_filled):
     plt.savefig('Bus Planning Gantt Chart.png')
     plt.show()
 
+def print_routes_for_bus(df, bus_number):
+    bus_df = df[df["bus"] == bus_number].sort_values("start_seconds").reset_index(drop=True)
+    print(f"\n📋 Ritten voor bus {bus_number}:")
+    for i, row in bus_df.iterrows():
+        start = row["start_seconds"]
+        end = row["end_seconds"]
+        activity = row.get("activity", "rit")
+        print(f"  {i+1:02d}. {activity:<6} van {start:>5} sec tot {end:>5} sec ({(end - start)/60:.1f} min)")
+
+
 def main():
 
     df = read_and_change_data()
     df_filled = replace_empty_gaps_with_idle(df)
     df_filled = night_rides_next_day(df_filled)
+    print_routes_for_bus(df_filled, bus_number=1)
     plot_gantt_chart(df_filled)
 
 if __name__ == "__main__":

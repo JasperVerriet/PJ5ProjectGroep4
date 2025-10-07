@@ -45,14 +45,13 @@ if uploaded:
     else:
         st.success("Geen overlappingen gevonden!")
 
-    # Energy checker
-    st.subheader("Energie-checker output:")
-    # Pas Energy_Checker aan zodat hij tekst returned in plaats van print
-    # Bijvoorbeeld:
-    # result = Energy_Checker(df_filled)
-    # st.write(result)
+# Energy checker
+st.subheader("Energie-checker output:")
+energy_output = Energy_Checker(df_filled)
+for line in energy_output:
+    st.write(line)
 
-    # Gantt chart
-    st.subheader("Gantt Chart:")
-    fig = plot_gantt_chart(df_filled)
-    st.pyplot(fig)
+# Gantt chart
+st.subheader("Gantt Chart:")
+fig = plot_gantt_chart(df_filled)
+st.pyplot(fig)

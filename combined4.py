@@ -75,11 +75,9 @@ def change_data(df):
         df_filled = pd.DataFrame(filled_rows)
         df_filled = df_filled[df_filled["end_seconds"] > df_filled["start_seconds"]]
 
-        # Zorg dat de kolom bestaat
         if "energy consumption" not in df_filled.columns:
             df_filled["energy consumption"] = 0.0
 
-        # Alleen idle-blokken krijgen berekende waarde
         idle_mask = df_filled["activity"] == "idle"
         df_filled.loc[idle_mask, "energy consumption"] = (
             (df_filled.loc[idle_mask, "end_seconds"] - df_filled.loc[idle_mask, "start_seconds"]) / 3600
@@ -154,7 +152,7 @@ def Overlap_Checker(df_filled):
         return overlaps
     # Group by bus and run the check_overlaps function.
     overlap_results = []
-    grouped = df_filled.groupby('bus')
+    grouped = df_filled.groupby('bus', observed=False)
     # For each bus, repeats the amount that the group is long.
     for bus, group in grouped:
         overlaps = check_overlaps(group)
@@ -183,7 +181,10 @@ def Energy_Checker(df_filled):
         for route_index, route in bus_routes.iterrows():
             energy_consumption = route["energy consumption"]
 
-
+            if current_battery_level - energy_consumption < min_battery_level:
+                print(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
+                feasible = False
+                break
 
 
             if energy_consumption > 0:
@@ -191,10 +192,6 @@ def Energy_Checker(df_filled):
 
             current_battery_level -= energy_consumption
 
-            if current_battery_level - energy_consumption < min_battery_level:
-                print(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
-                feasible = False
-                break
 
 
         total_energy_used = total_energy_used + total_energy_used_on_route

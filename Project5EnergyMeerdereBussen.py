@@ -37,6 +37,13 @@ def check_feasible_per_route(min_battery_level, max_battery_level, group_bus):
         for route_index, route in bus_routes.iterrows():
             energy_consumption = route["energy consumption"]
 
+            
+            if route["activity"] == "idle":
+                start_time = pd.to_datetime(route["start time"])
+                end_time = pd.to_datetime(route["end time"])
+                idle_time_hours = (end_time - start_time).total_seconds() / 3600  
+                energy_consumption = 5 * max(0, idle_time_hours)  
+
 
 
             if current_battery_level - energy_consumption < min_battery_level:

@@ -66,7 +66,7 @@ def change_data(df):
                         "end_seconds": current_start,
                         "activity": "idle"
                     })
-                    
+
 
                 filled_rows.append(row.to_dict())
                 prev_end = current_end
@@ -167,9 +167,10 @@ def Energy_Checker(df_filled):
     soh = original_battery * soh_input
     input_min_battery = float(input("choose your desireed minimum battery (normal = 0.10):"))
     min_battery_level = input_min_battery * soh  # 25.5 kWh
-
     input_max_battery = float(input("choose your desireed minimum battery (normal = 0.90):"))
     max_battery_level = input_max_battery * soh  # 239.5 kWh
+    charge_per_hour = float(input("what is the charge rate of your adapters(normal = 450):"))
+    total_charge_time = 0
 
     total_energy_used = 0
 
@@ -178,9 +179,12 @@ def Energy_Checker(df_filled):
     group_bus = df_filled.groupby('bus', observed=False)
 
 
+
     for bus_id, bus_routes in group_bus:
         total_energy_used_on_route = 0
+        total_charge_time_on_route = 0
         current_battery_level = max_battery_level
+    
         feasible = True
 
         for route_index, route in bus_routes.iterrows():
@@ -195,15 +199,23 @@ def Energy_Checker(df_filled):
             if energy_consumption > 0:
                 total_energy_used_on_route += energy_consumption
 
+            else:
+                total_charge_time_on_route += (energy_consumption/charge_per_hour)
+
+
             current_battery_level -= energy_consumption
 
 
 
         total_energy_used = total_energy_used + total_energy_used_on_route
+        total_charge_time = total_charge_time + total_charge_time_on_route
+
+        
 
 
         if feasible:
             print(f"\nBus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
+            print(f"\nTotal Charge Time: {total_charge_time} Hours")
 
 
 

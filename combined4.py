@@ -66,6 +66,7 @@ def change_data(df):
                         "end_seconds": current_start,
                         "activity": "idle"
                     })
+                    
 
                 filled_rows.append(row.to_dict())
                 prev_end = current_end
@@ -75,16 +76,14 @@ def change_data(df):
         df_filled = pd.DataFrame(filled_rows)
         df_filled = df_filled[df_filled["end_seconds"] > df_filled["start_seconds"]]
 
+
         if "energy consumption" not in df_filled.columns:
             df_filled["energy consumption"] = 0.0
 
-        idle_mask = df_filled["activity"] == "idle"
-        df_filled.loc[idle_mask, "energy consumption"] = (
-            (df_filled.loc[idle_mask, "end_seconds"] - df_filled.loc[idle_mask, "start_seconds"]) / 3600
-        ) * 5  # 5 kW idle-verbruik
-
-
-
+        idles = df_filled["activity"] == "idle"
+        df_filled.loc[idles, "energy consumption"] = (
+            (df_filled.loc[idles, "end_seconds"] - df_filled.loc[idles, "start_seconds"]) / 3600
+        ) * 5  # 5 kW 
 
         return df_filled 
 
@@ -163,9 +162,15 @@ def Overlap_Checker(df_filled):
 
 
 def Energy_Checker(df_filled):
-    soh = 255  # kWh
-    min_battery_level = 0.10 * soh  # 25.5 kWh
-    max_battery_level = 0.90 * soh   # 239.5 kWh
+    original_battery = 300
+    soh_input = float(input("Choose your desired SOH: (normal = 0.85)"))
+    soh = original_battery * soh_input
+    input_min_battery = float(input("choose your desireed minimum battery (normal = 0.10):"))
+    min_battery_level = input_min_battery * soh  # 25.5 kWh
+
+    input_max_battery = float(input("choose your desireed minimum battery (normal = 0.90):"))
+    max_battery_level = input_max_battery * soh  # 239.5 kWh
+
     total_energy_used = 0
 
     df_filled['bus'] = df_filled['bus'].astype(int)
@@ -261,7 +266,6 @@ def main():
 
     df_filled =change_data(df)
     df_filled.to_excel("BusPlanning_filled.xlsx", index=False)
-    print("✅ Excel-bestand opgeslagen als 'BusPlanning_filled.xlsx'")
     
     Overlap_Checker(df_filled)    
     

@@ -4,46 +4,37 @@ import numpy as np
 import matplotlib.pyplot as plt
 from combined4 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
 
-st.title('Hallo Bus Planner ')
+st.title('Hello Bus Planner ')
 
-name = st.text_input('Wat is je naam?')
+name = st.text_input('what is your name?')
 if name:
-    st.success(f'Welkom {name}! Klaar om timetables te controleren?')
+    st.success(f'Welkom {name}! ready to check your bus planner?')
 
 
 st.title('Bus Planner Checker')
 
-uploaded = st.file_uploader("Kies een Excel-bestand", type=["xlsx"])
+uploaded = st.file_uploader("choose an Excel-bestand", type=["xlsx"])
 if uploaded:
     df = pd.read_excel(uploaded, engine='openpyxl')
-    st.subheader("Eerste 5 rijen van je data:")
+    st.subheader("First 5 rowes of the data:")
     st.dataframe(df.head())
 
-    st.subheader("Missende data per kolom:")
+    st.subheader("Missing data per column:")
     missing = report_missing_data(df)
-    st.write(missing.isnull().sum())  # Of toon je eigen output
+    st.write(missing.isnull().sum())  # Or display the missing data report as needed
 
     df_filled = change_data(df)
-    st.subheader("Aangepaste data (eerste 5 rijen):")
+    st.subheader("Custom data (first 5 rows):")
     st.dataframe(df_filled.head())
 
     # Overlap checker
     overlaps = Overlap_Checker(df_filled)
     if overlaps:
-        st.subheader("Overlappingen gevonden:")
+        st.subheader("Overlap found:")
         for o in overlaps:
             st.write(o)
         else:
-            st.success("Geen overlappingen gevonden!")
-
-     # Overlap checker
-    overlaps = Overlap_Checker(df_filled)
-    st.subheader("Overlappingen gevonden:")
-    if overlaps:
-        for o in overlaps:
-            st.write(o)
-    else:
-        st.success("Geen overlappingen gevonden!")
+            st.success("No overlaps found!")
 
     # Gantt chart
     st.subheader("Gantt Chart:")

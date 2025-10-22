@@ -74,23 +74,16 @@ def change_data(df):
                 filled_rows.append(row.to_dict())
                 prev_end = current_end
 
-
-
         df_filled = pd.DataFrame(filled_rows)
         df_filled = df_filled[df_filled["end_seconds"] > df_filled["start_seconds"]]
 
-        # Zorg dat de kolom bestaat
         if "energy consumption" not in df_filled.columns:
             df_filled["energy consumption"] = 0.0
 
-        # Alleen idle-blokken krijgen berekende waarde
         idle_mask = df_filled["activity"] == "idle"
         df_filled.loc[idle_mask, "energy consumption"] = (
             (df_filled.loc[idle_mask, "end_seconds"] - df_filled.loc[idle_mask, "start_seconds"]) / 3600
         ) * 5  # 5 kW idle-verbruik
-
-
-
 
         return df_filled 
 
@@ -120,8 +113,6 @@ def change_data(df):
     df = read_and_change_data(df)
     df_filled = replace_empty_gaps_with_idle(df)
     df_filled = night_rides_next_day(df_filled)
-
-
 
     return df_filled
 
@@ -225,8 +216,6 @@ def Energy_Checker(df_filled):
     df_filled = df_filled.sort_values('bus')
     group_bus = df_filled.groupby('bus', observed=False)
 
-
-
     for bus_id, bus_routes in group_bus:
         total_energy_used_on_route = 0
         total_charge_time_on_route = 0
@@ -247,10 +236,6 @@ def Energy_Checker(df_filled):
                 idle_period = (route["end_seconds"] - route["start_seconds"])/3600
                 idle_per_route += idle_period
 
-    
-
-
-
             if energy_consumption > 0:
                 total_energy_used_on_route += energy_consumption
 
@@ -260,25 +245,18 @@ def Energy_Checker(df_filled):
 
             current_battery_level -= energy_consumption
 
-
-
         total_energy_used = total_energy_used + total_energy_used_on_route
         total_charge_time = total_charge_time + total_charge_time_on_route
         total_idle_time = total_idle_time + idle_per_route
 
-        
-
-
         if feasible:
-            print(f"\nBus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
+            print(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
 
 
 
     print(f"\nTotal Energy Used on Bus Plan is: {total_energy_used}")
-    print(f"\nTotal Idle Time: {total_idle_time} Hours")
-    print(f"\nTotal Charge Time: {total_charge_time} Hours")
-
-
+    print(f"Total Idle Time: {total_idle_time} Hours")
+    print(f"Total Charge Time: {total_charge_time} Hours")
 
 
 def plot_gantt_chart(df_filled):
@@ -317,12 +295,10 @@ def plot_gantt_chart(df_filled):
     ax.set_ylabel("Bus number")
     ax.set_title("Bus Planning lines 400 and 401 for 1 day")
 
-
     # Zorg dat alle busnummers zichtbaar zijn op de y-as
     bus_labels = sorted(df_filled["bus"].unique())
     ax.set_yticks(bus_labels)
     ax.set_yticklabels([str(b) for b in bus_labels])
-
 
     plt.tight_layout()
     plt.savefig('Bus Planning Gantt Chart.png')
@@ -335,7 +311,6 @@ def main():
 
     df_filled =change_data(df)
     df_filled.to_excel("BusPlanning_filled.xlsx", index=False)
-    print("✅ Excel-bestand opgeslagen als 'BusPlanning_filled.xlsx'")
     
     Overlap_Checker(df_filled)    
     

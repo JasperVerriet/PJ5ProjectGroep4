@@ -171,6 +171,7 @@ def Energy_Checker(df_filled):
     max_battery_level = input_max_battery * soh  # 239.5 kWh
     charge_per_hour = float(input("what is the charge rate of your adapters(normal = 450):"))
     total_charge_time = 0
+    total_idle_time = 0
 
     total_energy_used = 0
 
@@ -184,6 +185,7 @@ def Energy_Checker(df_filled):
         total_energy_used_on_route = 0
         total_charge_time_on_route = 0
         current_battery_level = max_battery_level
+        idle_per_route = 0
     
         feasible = True
 
@@ -194,6 +196,13 @@ def Energy_Checker(df_filled):
                 print(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
                 feasible = False
                 break
+
+            if route["activity"] == 'idle':
+                idle_period = (route["end_seconds"] - route["start_seconds"])/3600
+                idle_per_route += idle_period
+
+    
+
 
 
             if energy_consumption > 0:
@@ -209,17 +218,19 @@ def Energy_Checker(df_filled):
 
         total_energy_used = total_energy_used + total_energy_used_on_route
         total_charge_time = total_charge_time + total_charge_time_on_route
+        total_idle_time = total_idle_time + idle_per_route
 
         
 
 
         if feasible:
             print(f"\nBus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
-            print(f"\nTotal Charge Time: {total_charge_time} Hours")
 
 
 
-    print(f"Total Energy Used on Bus Plan is: {total_energy_used}")
+    print(f"\nTotal Energy Used on Bus Plan is: {total_energy_used}")
+    print(f"\nTotal Idle Time: {total_idle_time} Hours")
+    print(f"\nTotal Charge Time: {total_charge_time} Hours")
 
 
 

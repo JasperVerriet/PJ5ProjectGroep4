@@ -9,7 +9,7 @@ from combined6 import report_missing_data, change_data, Overlap_Checker, Energy_
 
 st.set_page_config(layout="wide")
 
-# status variabelen in session state
+# status variabelse in session state
 if "show_uploader" not in st.session_state:
     st.session_state.show_uploader = False
 if "uploaded_file" not in st.session_state:
@@ -25,104 +25,70 @@ if "energy_output" not in st.session_state:
 if "overlaps" not in st.session_state:
     st.session_state.overlaps = None
 
-# boven knoppen
+# Top buttons
 col1, col2, col3 = st.columns([1,1,1])
 with col1:
-    insert_clicked = st.button("plaats planning")
+    insert_clicked = st.button("Insert planning")
 with col2:
-    calc_clicked = st.button("bereken haalbaarheid planning")
+    calc_clicked = st.button("Calculate feasibility")
 with col3:
-    save_clicked = st.button("sla planning op")
+    save_clicked = st.button("Save planning")
 
 if insert_clicked:
     st.session_state.show_uploader = True
 
 st.markdown("---")
 
-# Hooft layout: Gantt chart en resultaten
+# Main layout: Gantt chart and results
 main_col, result_col = st.columns([2,1])
 
 with main_col:
     st.title("Bus Planning lines 400 and 401 for 1 day")
     if st.session_state.show_uploader:
-        uploaded = st.file_uploader("Kies een Excel-bestand", type=["xlsx"], key="uploader")
+        uploaded = st.file_uploader("choise an Excel-file", type=["xlsx"], key="uploader")
         if uploaded is not None:
             st.session_state.uploaded_file = uploaded
-            st.success("Bestand geüpload. Klik 'bereken haalbaarheid planning' om te verwerken.")
+            st.success("file geüploaded. click 'Calculate feasibility' to proces.")
 
-    # Als de gebruiker op berekenen heeft gedrukt of het bestand is al geüpload en calc_clicked, wordt de verwerking uitgevoerd
+    # If the user has pressed calculate or the file has already been uploaded and calc_clicked, the processing will be performed
     if calc_clicked:
         if st.session_state.uploaded_file is None:
-            st.error("Upload eerst een Excel-bestand met 'plaats planning'.")
+            st.error("Upload first an Excel-file with 'Insert planning'.")
         else:
             try:
                 df = pd.read_excel(st.session_state.uploaded_file, engine="openpyxl")
                 st.session_state.df = df
             except Exception as e:
-                st.error(f"Fout bij inlezen bestand: {e}")
+                st.error(f"Error reading file: {e}")
                 st.session_state.df = None
 
             if st.session_state.df is not None:
-                # laat eerste 5 rijen zien
-                st.subheader("Eerste 5 rijen van je data:")
+                # chows first 5 rows data
+                st.subheader("First 5 rows of your data:")
                 st.dataframe(st.session_state.df.head())
 
-                # missende data 
-                st.subheader("Missende data per kolom:")
+                # Missing data 
+                st.subheader("Missing data per column:")
                 try:
                     missing = report_missing_data(st.session_state.df)
-                    # report_missing_data kan een Boolean DF of reeks retourneren; probeer een verstandige weergave
+                    # report_missing_data may return a Boolean DF or array; try a sensible representation
                     try:
                         st.write(missing.sum())
                     except Exception:
                         st.write(missing)
                 except Exception as e:
-                    st.error(f"Fout bij missende data: {e}")
+                    st.error(f"Error missing data: {e}")
 
-                # verander data
+                # change data
                 try:
                     df_filled = change_data(st.session_state.df)
                     st.session_state.df_filled = df_filled
-                    st.subheader("Aangepaste data (eerste 5 rijen):")
+                    st.subheader("Custom data (first 5 rows):")
                     st.dataframe(df_filled.head())
                 except Exception as e:
-                    st.error(f"Fout bij aanpassen data: {e}")
+                    st.error(f"Error while adjusting data: {e}")
                     st.session_state.df_filled = None
-                # --- EFFICIENTE METRICS (bereken één keer en sla op) ---
-                if st.session_state.df_filled is not None:
-                    # werk op een view (vermijd zware kopieën in grote datasets)
-                    dfm = st.session_state.df_filled
 
-                    # normaliseer kolomnaam voor energy (veilig maken, numeriek)
-                    if "energy consumption" not in dfm.columns and "energy verbruik" in dfm.columns:
-                        dfm["energy consumption"] = pd.to_numeric(dfm["energy verbruik"], errors="coerce").fillna(0.0)
-                    else:
-                        dfm["energy consumption"] = pd.to_numeric(dfm.get("energy consumption", 0.0), errors="coerce").fillna(0.0)
-
-                    # vectorized durations (zorg dat end_shifted/start_shifted bestaan)
-                    durations = (dfm["end_shifted"] - dfm["start_shifted"]).clip(lower=0).astype(float)
-
-                    # idle tijd (vectorized)
-                    activity_col = dfm.columns[dfm.columns.str.lower().isin(["activity", "activiteit"])]
-                    if len(activity_col) > 0:
-                        act = dfm[activity_col[0]]
-                    else:
-                        act = pd.Series([""]*len(dfm), index=dfm.index)
-
-                    idle_mask = act.eq("idle")
-                    idle_seconds = float(durations.loc[idle_mask].sum()) if idle_mask.any() else 0.0
-
-                    # charging tijd (activity == 'charging' of negatieve energy)
-                    charging_mask = act.eq("charging") | (dfm["energy consumption"] < 0)
-                    charging_seconds = float(durations.loc[charging_mask].sum()) if charging_mask.any() else 0.0
-
-                    # totaal energie (vectorized)
-                    total_energy = float(dfm["energy consumption"].sum())
-
-                    # bewaar in session_state (zodat onderkant alleen leest)
-                    st.session_state.total_energy = total_energy
-                    st.session_state.idle_seconds = int(idle_seconds)
-                    st.session_state.charging_seconds = int(charging_seconds)
                 # Gantt chart
                 if st.session_state.df_filled is not None:
                     st.subheader("Gantt Chart:")
@@ -133,10 +99,10 @@ with main_col:
                         st.session_state.gantt_fig = fig
                         st.pyplot(fig)
                     except Exception as e:
-                        st.error(f"Fout bij tekenen Gantt chart: {e}")
+                        st.error(f"Error with drawing Gantt chart: {e}")
                         st.session_state.gantt_fig = None
 
-                    # overlappingen en energiecontroles uitvoeren en uitvoer opslaan
+                    # perform overlaps and energy checks and save output
                     try:
                         st.session_state.overlaps = Overlap_Checker(st.session_state.df_filled)
                     except Exception:
@@ -153,22 +119,22 @@ with result_col:
     """, unsafe_allow_html=True)
 
     if st.session_state.df_filled is None:
-        st.info("Nog geen verwerkte planning. Klik 'Insert planning' en daarna 'Calculate feasibility'.")
+        st.info("No processed schedule yet. Click 'Insert schedule' and then 'Calculate feasibility'.")
     else:
-        # Overlap resultaat
+        # Overlap result
         overlaps = st.session_state.overlaps
         if overlaps:
-            st.markdown("#### ❌ Overlappingen gevonden")
+            st.markdown("#### ❌ Overlappingen found")
             for o in overlaps:
                 st.write(o)
         else:
-            st.success("✅ Er is geen overlap gevonden in de planning.")
+            st.success("✅ No overlap was found in the planning.")
 
-        # Energy checker uitvoer
+        # Energy checker result
         energy_output = st.session_state.energy_output
-        st.markdown("#### Energie-checker uitkomst:")
+        st.markdown("#### Energie-checker result:")
         if energy_output is None:
-            st.info("Geen energie-uitvoer (of functie geeft None terug).")
+            st.info("No energy output (or function returns None).")
         elif isinstance(energy_output, (list, tuple)):
             for line in energy_output:
                 st.write(line)
@@ -179,20 +145,20 @@ with result_col:
 
 st.markdown("---")
 
-# buttons onder (totale energy, stilstaan tijd, oplaad tijd)
+# buttons below (total energy, idle time, charging time)
 sum_col1, sum_col2, sum_col3 = st.columns([1,1,1])
 with sum_col1:
     if st.session_state.df_filled is not None:
         try:
             total_energy = st.session_state.df_filled.get("energy verbruik", pd.Series([0])).sum()
             st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        f'<b>Totale energy gebruikt:</b><br>{total_energy:.2f} kWh</div>', unsafe_allow_html=True)
+                        f'<b>Total energy used:</b><br>{total_energy:.2f} kWh</div>', unsafe_allow_html=True)
         except Exception:
             st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        'Totale energy gebruikt:<br>N/A</div>', unsafe_allow_html=True)
+                        'Total energy used:<br>N/A</div>', unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                    'Totale energy gebruikt:<br>—</div>', unsafe_allow_html=True)
+                    'Total energy used:<br>—</div>', unsafe_allow_html=True)
 
 with sum_col2:
     if st.session_state.df_filled is not None:
@@ -203,16 +169,16 @@ with sum_col2:
                 h = int(idle_seconds // 3600)
                 m = int((idle_seconds % 3600) // 60)
                 st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                            f'<b>stilstaan tijd:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
+                            f'<b>Idle time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
             else:
                 st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                            'stilstaan tijd:<br>0 H : 0 M</div>', unsafe_allow_html=True)
+                            'Idle time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
         except Exception:
             st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        'stilstaan tijd:<br>N/A</div>', unsafe_allow_html=True)
+                        'Idle time:<br>N/A</div>', unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                    'stilstaan tijd:<br>—</div>', unsafe_allow_html=True)
+                    'Idle time:<br>—</div>', unsafe_allow_html=True)
 
 with sum_col3:
     if st.session_state.df_filled is not None:
@@ -223,43 +189,43 @@ with sum_col3:
                 h = int(charging_seconds // 3600)
                 m = int((charging_seconds % 3600) // 60)
                 st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                            f'<b>oplaad tijd:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
+                            f'<b>Charging time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
             else:
                 st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                            'oplaad tijd:<br>0 H : 0 M</div>', unsafe_allow_html=True)
+                            'Charging time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
         except Exception:
             st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        'oplaad tijd:<br>N/A</div>', unsafe_allow_html=True)
+                        'Charging time:<br>N/A</div>', unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                    'oplaad tijd:<br>—</div>', unsafe_allow_html=True)
+                    'Charging time:<br>—</div>', unsafe_allow_html=True)
 
-# planning opslaan: maak een PDF en bied een download aan
+# Save planning: create a PDF and offer a download
 if save_clicked:
     if st.session_state.df_filled is None or st.session_state.gantt_fig is None:
-        st.error("Geen verwerkte planning om op te slaan. Run 'bereken haalbaarheid planning' eerst.")
+        st.error("No processed schedule to save. Run 'Calculate schedule feasibility' first.")
     else:
         buf = BytesIO()
         try:
             with PdfPages(buf) as pdf:
-                # eerste pagina: gantt figuur
+                # First page: gantt chart
                 pdf.savefig(st.session_state.gantt_fig)
                 plt.close(st.session_state.gantt_fig)
-                # tweede pagina: eenvoudige tekstuele samenvatting als figuur
-                fig2, ax2 = plt.subplots(figsize=(8.27, 11.69))  # A4n formaat
+                # Second page: overlaps and energy results
+                fig2, ax2 = plt.subplots(figsize=(8.27, 11.69))  # A4 size
                 ax2.axis("off")
                 text_lines = []
-                # overlap
+                # Overlap
                 if st.session_state.overlaps:
-                    text_lines.append("Overlappingen gevonden:")
+                    text_lines.append("Overlaps found:")
                     for o in st.session_state.overlaps:
                         text_lines.append(str(o))
                 else:
-                    text_lines.append("Geen overlappingen gevonden.")
+                    text_lines.append("No overlaps found.")
                 # energy
                 if st.session_state.energy_output:
                     text_lines.append("")
-                    text_lines.append("Energie-checker uitkomst:")
+                    text_lines.append("Energie-checker result:")
                     if isinstance(st.session_state.energy_output, (list, tuple)):
                         text_lines.extend([str(x) for x in st.session_state.energy_output])
                     else:
@@ -269,10 +235,10 @@ if save_clicked:
                 pdf.savefig(fig2)
                 plt.close(fig2)
             buf.seek(0)
-            st.success("Busplanning opgeslagen in PDF. Download hieronder:")
+            st.success("Bus schedule saved as a PDF. Download below:")
             st.download_button("Download BusPlanning.pdf", data=buf.getvalue(), file_name="BusPlanning.pdf", mime="application/pdf")
             # opstineel: sla het bestand ook lokaal op
             with open("BusPlanning.pdf", "wb") as f:
                 f.write(buf.getvalue())
         except Exception as e:
-            st.error(f"Fout bij opslaan PDF: {e}")
+            st.error(f"Error saving PDF: {e}")

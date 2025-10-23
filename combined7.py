@@ -30,7 +30,7 @@ def change_data(df):
         """
         df = df.copy()
         
-        datum = "02-10-2025"
+        datum = "23-10-2025"
         df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
         df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
         df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second
@@ -282,7 +282,6 @@ def plot_gantt_chart(df_filled):
     patches = [plt.Rectangle((0, 0), 1, 1, fc=colour_per_activity[type]) for type in activities]
     ax.legend(patches, activities, loc="upper right")
 
-    # Tijdas: van 04:00 tot 02:00 (22 uur)
     xticks = range(0, 22 * 3600 + 1, 3600)
     xlabels = [f"{(t // 3600 + 4) % 24:02d}:00" for t in xticks]
     ax.set_xticks(xticks)
@@ -292,7 +291,6 @@ def plot_gantt_chart(df_filled):
     ax.set_ylabel("Bus number")
     ax.set_title("Bus Planning lines 400 and 401 for 1 day")
 
-    # Zorg dat alle busnummers zichtbaar zijn op de y-as
     bus_labels = sorted(df_filled["bus"].unique())
     ax.set_yticks(bus_labels)
     ax.set_yticklabels([str(b) for b in bus_labels])

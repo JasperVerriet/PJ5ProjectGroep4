@@ -88,7 +88,41 @@ with main_col:
                 except Exception as e:
                     st.error(f"Fout bij aanpassen data: {e}")
                     st.session_state.df_filled = None
+                # --- EFFICIENTE METRICS (bereken één keer en sla op) ---
+                if st.session_state.df_filled is not None:
+                    # werk op een view (vermijd zware kopieën in grote datasets)
+                    dfm = st.session_state.df_filled
 
+                    # normaliseer kolomnaam voor energy (veilig maken, numeriek)
+                    if "energy consumption" not in dfm.columns and "energy verbruik" in dfm.columns:
+                        dfm["energy consumption"] = pd.to_numeric(dfm["energy verbruik"], errors="coerce").fillna(0.0)
+                    else:
+                        dfm["energy consumption"] = pd.to_numeric(dfm.get("energy consumption", 0.0), errors="coerce").fillna(0.0)
+
+                    # vectorized durations (zorg dat end_shifted/start_shifted bestaan)
+                    durations = (dfm["end_shifted"] - dfm["start_shifted"]).clip(lower=0).astype(float)
+
+                    # idle tijd (vectorized)
+                    activity_col = dfm.columns[dfm.columns.str.lower().isin(["activity", "activiteit"])]
+                    if len(activity_col) > 0:
+                        act = dfm[activity_col[0]]
+                    else:
+                        act = pd.Series([""]*len(dfm), index=dfm.index)
+
+                    idle_mask = act.eq("idle")
+                    idle_seconds = float(durations.loc[idle_mask].sum()) if idle_mask.any() else 0.0
+
+                    # charging tijd (activity == 'charging' of negatieve energy)
+                    charging_mask = act.eq("charging") | (dfm["energy consumption"] < 0)
+                    charging_seconds = float(durations.loc[charging_mask].sum()) if charging_mask.any() else 0.0
+
+                    # totaal energie (vectorized)
+                    total_energy = float(dfm["energy consumption"].sum())
+
+                    # bewaar in session_state (zodat onderkant alleen leest)
+                    st.session_state.total_energy = total_energy
+                    st.session_state.idle_seconds = int(idle_seconds)
+                    st.session_state.charging_seconds = int(charging_seconds)
                 # Gantt chart
                 if st.session_state.df_filled is not None:
                     st.subheader("Gantt Chart:")

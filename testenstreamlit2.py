@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
 
-from combined6 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
+from combined7 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
 
 st.set_page_config(layout="wide")
 
@@ -150,7 +150,7 @@ sum_col1, sum_col2, sum_col3 = st.columns([1,1,1])
 with sum_col1:
     if st.session_state.df_filled is not None:
         try:
-            total_energy = st.session_state.df_filled.get("energy verbruik", pd.Series([0])).sum()
+            total_energy = st.session_state.df_filled.get("energy consumption", pd.Series([0])).sum()
             st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
                         f'<b>Total energy used:</b><br>{total_energy:.2f} kWh</div>', unsafe_allow_html=True)
         except Exception:
@@ -163,7 +163,7 @@ with sum_col1:
 with sum_col2:
     if st.session_state.df_filled is not None:
         try:
-            idle_mask = st.session_state.df_filled.get("activiteit", pd.Series()).eq("idle")
+            idle_mask = st.session_state.df_filled.get("activity", pd.Series()).eq("idle")
             if idle_mask.any():
                 idle_seconds = (st.session_state.df_filled.loc[idle_mask, "end_shifted"] - st.session_state.df_filled.loc[idle_mask, "start_shifted"]).sum()
                 h = int(idle_seconds // 3600)
@@ -183,7 +183,7 @@ with sum_col2:
 with sum_col3:
     if st.session_state.df_filled is not None:
         try:
-            charging_mask = (st.session_state.df_filled.get("activiteit", pd.Series()) == "charging") | (st.session_state.df_filled.get("energy consumption", pd.Series()) < 0)
+            charging_mask = (st.session_state.df_filled.get("activity", pd.Series()) == "charging") | (st.session_state.df_filled.get("energy consumption", pd.Series()) < 0)
             if charging_mask.any():
                 charging_seconds = (st.session_state.df_filled.loc[charging_mask, "end_shifted"] - st.session_state.df_filled.loc[charging_mask, "start_shifted"]).sum()
                 h = int(charging_seconds // 3600)

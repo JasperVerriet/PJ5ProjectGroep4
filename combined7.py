@@ -253,7 +253,7 @@ def Energy_Checker(df_filled):
 
     print(f"\nTotal Energy Used on Bus Plan is: {total_energy_used}")
     print(f"Total Idle Time: {total_idle_time} Hours")
-    print(f"Total Charge Time: {total_charge_time} Hours")
+    print(f"Total Time Spent Charging: {abs(total_charge_time)} Hours")
 
 
 def plot_gantt_chart(df_filled):

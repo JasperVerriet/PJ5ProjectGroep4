@@ -230,14 +230,14 @@ if save_clicked:
                         text_lines.extend([str(x) for x in st.session_state.energy_output])
                     else:
                         text_lines.append(str(st.session_state.energy_output))
-                # schrijf text
+                # write text to figure
                 ax2.text(0.01, 0.99, "\n".join(text_lines), va="top", wrap=True, fontsize=10)
                 pdf.savefig(fig2)
                 plt.close(fig2)
             buf.seek(0)
             st.success("Bus schedule saved as a PDF. Download below:")
             st.download_button("Download BusPlanning.pdf", data=buf.getvalue(), file_name="BusPlanning.pdf", mime="application/pdf")
-            # opstineel: sla het bestand ook lokaal op
+            # Also save to local file system
             with open("BusPlanning.pdf", "wb") as f:
                 f.write(buf.getvalue())
         except Exception as e:

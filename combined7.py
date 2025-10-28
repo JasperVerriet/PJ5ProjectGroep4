@@ -213,49 +213,43 @@ def Energy_Checker(df_filled):
     df_filled = df_filled.sort_values('bus')
     group_bus = df_filled.groupby('bus', observed=False)
 
+    messages = []
+
     for bus_id, bus_routes in group_bus:
         total_energy_used_on_route = 0
         total_charge_time_on_route = 0
         current_battery_level = max_battery_level
         idle_per_route = 0
-    
+
         feasible = True
 
         for route_index, route in bus_routes.iterrows():
             energy_consumption = route["energy consumption"]
 
             if current_battery_level - energy_consumption < min_battery_level:
-                print(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
+                messages.append(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
                 feasible = False
                 break
 
-            if route["activity"] == 'idle':
-                idle_period = (route["end_seconds"] - route["start_seconds"])/3600
+            if route.get("activity", "") == 'idle':
+                idle_period = (route["end_seconds"] - route["start_seconds"]) / 3600
                 idle_per_route += idle_period
 
             if energy_consumption > 0:
                 total_energy_used_on_route += energy_consumption
-
             else:
-                total_charge_time_on_route += (energy_consumption/charge_per_hour)
-
+                total_charge_time_on_route += (energy_consumption / charge_per_hour)
 
             current_battery_level -= energy_consumption
 
-        total_energy_used = total_energy_used + total_energy_used_on_route
-        total_charge_time = total_charge_time + total_charge_time_on_route
-        total_idle_time = total_idle_time + idle_per_route
+        total_energy_used += total_energy_used_on_route
+        total_charge_time += total_charge_time_on_route
+        total_idle_time += idle_per_route
 
         if feasible:
-            print(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
+            messages.append(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
 
-
-
-    print(f"\nTotal Energy Used on Bus Plan is: {total_energy_used}")
-    print(f"Total Idle Time: {total_idle_time} Hours")
-    print(f"Total Time Spent Charging: {abs(total_charge_time)} Hours")
-
-
+    return messages
 def plot_gantt_chart(df_filled):
 
     """
@@ -319,4 +313,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+

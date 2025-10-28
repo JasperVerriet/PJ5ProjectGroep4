@@ -7,9 +7,10 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 from combined7 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
 
+# Streamlit page settings
 st.set_page_config(layout="wide")
 
-# status variabelse in session state
+# Status variabelse in session state
 if "show_uploader" not in st.session_state:
     st.session_state.show_uploader = False
 if "uploaded_file" not in st.session_state:
@@ -39,18 +40,18 @@ if insert_clicked:
 
 st.markdown("---")
 
-# Main layout: Gantt chart and results
+# Main layout for streamlit: Gantt chart and results
 main_col, result_col = st.columns([2,1])
 
 with main_col:
     st.title("Bus Planning lines 400 and 401 for 1 day")
     if st.session_state.show_uploader:
-        uploaded = st.file_uploader("choise an Excel-file", type=["xlsx"], key="uploader")
+        uploaded = st.file_uploader("choice an Excel-file", type=["xlsx"], key="uploader")
         if uploaded is not None:
             st.session_state.uploaded_file = uploaded
             st.success("file geüploaded. click 'Calculate feasibility' to proces.")
 
-    # If the user has pressed calculate or the file has already been uploaded and calc_clicked, the processing will be performed
+    # If the user has pressed calculate or the file has already been uploaded and calc_clicked. The processing will be done
     if calc_clicked:
         if st.session_state.uploaded_file is None:
             st.error("Upload first an Excel-file with 'Insert planning'.")
@@ -63,15 +64,15 @@ with main_col:
                 st.session_state.df = None
 
             if st.session_state.df is not None:
-                # chows first 5 rows data
+                # Chows first 5 rows data
                 st.subheader("First 5 rows of your data:")
                 st.dataframe(st.session_state.df.head())
 
-                # Missing data 
+                # Chows missing data per column
                 st.subheader("Missing data per column:")
                 try:
                     missing = report_missing_data(st.session_state.df)
-                    # report_missing_data may return a Boolean DF or array; try a sensible representation
+                    # Chows if you report_missing_data 
                     try:
                         st.write(missing.sum())
                     except Exception:
@@ -79,7 +80,7 @@ with main_col:
                 except Exception as e:
                     st.error(f"Error missing data: {e}")
 
-                # change data
+                # Change data to fit the model
                 try:
                     df_filled = change_data(st.session_state.df)
                     st.session_state.df_filled = df_filled
@@ -102,7 +103,7 @@ with main_col:
                         st.error(f"Error with drawing Gantt chart: {e}")
                         st.session_state.gantt_fig = None
 
-                    # perform overlaps and energy checks and save output
+                    # Perform overlaps and energy checks and save the output
                     try:
                         st.session_state.overlaps = Overlap_Checker(st.session_state.df_filled)
                     except Exception:
@@ -111,7 +112,8 @@ with main_col:
                         st.session_state.energy_output = Energy_Checker(st.session_state.df_filled)
                     except Exception:
                         st.session_state.energy_output = None
-
+                    energy_output = st.session_state.get("energy_output", None)
+        
 with result_col:
     st.markdown("""
     <div style="border:3px solid #FFD700; border-radius:12px; padding:12px; background-color:#FFFBEA;">
@@ -129,72 +131,35 @@ with result_col:
                 st.write(o)
         else:
             st.success("✅ No overlap was found in the planning.")
-
-# Add this helper function at the top of your file after imports
-def process_energy_results(energy_output):
-    """Process energy output into feasible and infeasible buses"""
-    feasible_buses = []
-    infeasible_buses = []
-    
-    if not isinstance(energy_output, (list, tuple)):
-        return [], []
-        
-    for line in energy_output:
-        if "Bus" not in str(line):
-            continue
-            
-        if "will drop below 10%" in str(line):
-            # Extract bus and route numbers for infeasible
+        # Energy result per bus (if available)
+        energy_output = st.session_state.get("energy_output", None)
+        if energy_output:
+            st.markdown("#### Energy result per bus")
             try:
-                bus_num = int(str(line).split("Bus ")[1].split(":")[0])
-                route_num = int(str(line).split("route ")[1].split(".")[0])
-                infeasible_buses.append((bus_num, route_num))
-            except (IndexError, ValueError):
-                continue
-        elif "is feasible" in str(line):
-            # Extract bus number and energy usage for feasible
-            try:
-                bus_num = int(str(line).split("Bus ")[1].split(" is")[0])
-                energy = float(str(line).split("used: ")[1].split(" kWh")[0])
-                feasible_buses.append((bus_num, energy))
-            except (IndexError, ValueError):
-                continue
-                
-    return sorted(infeasible_buses), sorted(feasible_buses)
+                # Common iterable results make to a string per line
+                if isinstance(energy_output, (list, tuple, pd.Series)):
+                    for line in energy_output:
+                        st.write(str(line))
+                # Dict-like results
+                elif isinstance(energy_output, dict):
+                    for k, v in energy_output.items():
+                        st.write("Bus " + str(k) + ": " + str(v))
+                # Display if not iterable
+                else:
+                    try:
+                        for line in energy_output:
+                            st.write(str(line))
+                    except Exception:
+                        st.write(str(energy_output))
+            except Exception as e:
+                st.error("Error displaying energy results: " + str(e))
+        else:
+            st.info("No energie-check.")
+    st.markdown("</div>", unsafe_allow_html=True)
 
-    # Replace the energy checker result section in result_col with:
-    energy_output = st.session_state.energy_output
-    st.markdown("#### Bus Feasibility Results:")
+st.markdown("---")
 
-    if energy_output is None:
-        st.info("No energy output available.")
-    else:
-        infeasible_buses, feasible_buses = process_energy_results(energy_output)
-        
-        # Display infeasible buses with red background
-        for bus_num, route_num in infeasible_buses:
-            st.markdown(
-                f"""<div style="background-color:#ffebee; padding:10px; border-radius:5px; margin:5px 0">
-                Bus {bus_num}: Battery level will drop below 10% during route {route_num}. Route is infeasible.
-                </div>""",
-                unsafe_allow_html=True
-            )
-        
-        # Display feasible buses with green background
-        for bus_num, energy in feasible_buses:
-            st.markdown(
-                f"""<div style="background-color:#e8f5e9; padding:10px; border-radius:5px; margin:5px 0">
-                Bus plan for Bus {bus_num} is feasible. Amount of energy used: {energy:.2f} kWh
-                </div>""",
-                unsafe_allow_html=True
-            )
-            
-        if not infeasible_buses and not feasible_buses:
-            st.warning("No bus results could be processed from the energy output.")
-
-    st.markdown("---")
-
-# buttons below (total energy, idle time, charging time)
+# Buttons below (total energy, idle time, charging time)
 sum_col1, sum_col2, sum_col3 = st.columns([1,1,1])
 with sum_col1:
     if st.session_state.df_filled is not None:
@@ -271,7 +236,7 @@ if save_clicked:
                         text_lines.append(str(o))
                 else:
                     text_lines.append("No overlaps found.")
-                # energy
+                # Energy
                 if st.session_state.energy_output:
                     text_lines.append("")
                     text_lines.append("Energie-checker result:")
@@ -291,3 +256,4 @@ if save_clicked:
                 f.write(buf.getvalue())
         except Exception as e:
             st.error(f"Error saving PDF: {e}")
+

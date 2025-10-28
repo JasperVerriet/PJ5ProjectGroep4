@@ -45,7 +45,7 @@ main_col, result_col = st.columns([2,1])
 with main_col:
     st.title("Bus Planning lines 400 and 401 for 1 day")
     if st.session_state.show_uploader:
-        uploaded = st.file_uploader("choise an Excel-file", type=["xlsx"], key="uploader")
+        uploaded = st.file_uploader("choose an Excel-file", type=["xlsx"], key="uploader")
         if uploaded is not None:
             st.session_state.uploaded_file = uploaded
             st.success("file geüploaded. click 'Calculate feasibility' to proces.")

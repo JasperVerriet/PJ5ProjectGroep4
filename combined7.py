@@ -30,7 +30,7 @@ def change_data(df):
         """
         df = df.copy()
         
-        datum = "23-10-2025"
+        datum = "31-10-2025"
         df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
         df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
         df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second

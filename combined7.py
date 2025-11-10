@@ -2,14 +2,19 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Here is the function that loads the Excel file and returns the DataFrame
 def Data_Collection():
+    """
+    Loads the data from the excel file
+    Returns the DataFrame
+    """
     file_path = input("Put your Excel file in here:")
     df = pd.read_excel(file_path, engine='openpyxl')
     return df
 
-# Here is the function that reports missing data in the DataFrame
 def report_missing_data(df):
+    """
+    Reports when data is missing in the DataFrame
+    """
     copy = df.copy()
     copy = copy.drop("line", axis=1)
     missing_data = copy.isnull()
@@ -30,7 +35,7 @@ def change_data(df):
         """
         df = df.copy()
         
-        datum = "23-10-2025"
+        datum = "31-10-2025"
         df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
         df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
         df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second
@@ -90,7 +95,7 @@ def change_data(df):
     def night_rides_next_day(df_filled):
         """
         Changes routes that are run after 23:59 to the next day in the schedule
-        param df_filled: the data set filled with idle 
+        param df_filled: the data set filled with idles 
         """
 
         night_rides = (df_filled["start_seconds"] >= 0) & (df_filled["start_seconds"] < 2 * 3600)
@@ -199,6 +204,14 @@ def Timetable_comparison(df):
                 print(f"\nRow {i}   The start time {dfc['start time'].iloc[i]} does not correspond to {table['departure_time'].iloc[i]} in the timetable.")
     
 def Energy_Checker(df_filled):
+    """
+    calculates the total amount of energy used
+    calculates the total idle time
+    calculates total charge time
+    shows feasibilty of the routes in terms of energy levels
+    param df_filled: the dataset filled with idles
+
+    """
 
     soh = 255
     min_battery_level = 0.1 * soh

@@ -31,9 +31,13 @@ def change_data(df):
         datum = "31-10-2025"
         df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
         df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
-        df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second
-        df["end_seconds"] = df["end time"].dt.hour * 3600 + df["end time"].dt.minute * 60 + df["end time"].dt.second
-        df.loc[df["end_seconds"] < df["start_seconds"], "end_seconds"] += 24 * 3600
+        # If end time is before start time, add one day to end time
+        mask = df["end time"] < df["start time"]
+        df.loc[mask, "end time"] += pd.Timedelta(days=1)
+        # Calculate seconds since planning day midnight for both start and end
+        planning_midnight = pd.to_datetime(datum + " 00:00:00", format="%d-%m-%Y %H:%M:%S")
+        df["start_seconds"] = (df["start time"] - planning_midnight).dt.total_seconds()
+        df["end_seconds"] = (df["end time"] - planning_midnight).dt.total_seconds()
         return df
 
     def replace_empty_gaps_with_idle(df):
@@ -135,6 +139,32 @@ def make_feasible_busplan(df_filled):
     df_new["end time"] = df_new["end time"].dt.strftime("%H:%M:%S")
     return df_new
 
+def remove_overlaps(df):
+    df_sorted = df.sort_values(['bus', 'start_seconds']).reset_index(drop=True)
+    cleaned_rows = []
+    for bus, group in df_sorted.groupby('bus'):
+        prev_end = None
+        for idx, row in group.iterrows():
+            start = row['start_seconds']
+            end = row['end_seconds']
+            # If overlap, shift start to prev_end
+            if prev_end is not None and start < prev_end:
+                duration = end - start
+                start = prev_end
+                end = start + duration
+            cleaned_row = row.copy()
+            cleaned_row['start_seconds'] = start
+            cleaned_row['end_seconds'] = end
+            cleaned_rows.append(cleaned_row)
+            prev_end = end
+    df_cleaned = pd.DataFrame(cleaned_rows)
+    # Recalculate start/end time columns
+    df_cleaned["start time"] = pd.to_datetime("00:00:00") + pd.to_timedelta(df_cleaned["start_seconds"], unit='s')
+    df_cleaned["end time"] = pd.to_datetime("00:00:00") + pd.to_timedelta(df_cleaned["end_seconds"], unit='s')
+    df_cleaned["start time"] = df_cleaned["start time"].dt.strftime("%H:%M:%S")
+    df_cleaned["end time"] = df_cleaned["end time"].dt.strftime("%H:%M:%S")
+    return df_cleaned
+
 
 # 5. ENERGY CHECK
 def Energy_Checker(df):
@@ -193,12 +223,13 @@ def main():
     report_missing_data(df)
     df_filled = change_data(df)
     df_feasible = make_feasible_busplan(df_filled)
-    df_feasible.to_excel("BusPlanning_feasible.xlsx", index=False)
+    df_no_overlap = remove_overlaps(df_feasible)  # <-- Add this line
+    df_no_overlap.to_excel("BusPlanning_feasible.xlsx", index=False)
     print("\nFeasible bus plan saved as 'BusPlanning_feasible.xlsx'")
     print("\nEnergy check results:")
-    for msg in Energy_Checker(df_feasible):
+    for msg in Energy_Checker(df_no_overlap):
         print(msg)
-    plot_gantt_chart(df_feasible)
+    plot_gantt_chart(df_no_overlap)
 
 
 if __name__ == "__main__":

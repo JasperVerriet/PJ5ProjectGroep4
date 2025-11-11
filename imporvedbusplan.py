@@ -58,8 +58,8 @@ def change_data(df):
                         "end_seconds": current_start,
                         "activity": "idle",
                         "energy consumption": ((current_start - prev_end) / 3600) * 5,
-                        "start location": "EHVBST",
-                        "end location": "EHVBST"
+                        "start location": "ehvbst",
+                        "end location": "ehvbst"
                     })
                 filled_rows.append(row.to_dict())
                 prev_end = current_end
@@ -103,29 +103,33 @@ def make_feasible_busplan(df_filled):
                     "start_seconds": prev_end,
                     "end_seconds": start_s,
                     "energy consumption": idle_energy,
-                    "start location": "EHVBST",
-                    "end location": "EHVBST"
+                    "start location": "ehvbst",
+                    "end location": "ehvbst"
                 })
                 battery -= idle_energy
 
             if battery - energy_needed < min_level:
                 charge_needed = max_level - battery
-                charge_time_hr = charge_needed / charge_rate
-                charge_time_sec = max(charge_time_hr * 3600, min_charge_minutes * 60)
-                charge_start = prev_end if prev_end else start_s - charge_time_sec
-                charge_end = charge_start + charge_time_sec
+                charge_time_hr = charge_needed / charge_rate   # hours
+                charge_time_min = max(charge_time_hr * 60, min_charge_minutes)  # in minutes
+
+                # Determine start and end times in minutes
+                charge_start_min = prev_end / 60 if prev_end else start_s / 60 - charge_time_min
+                charge_end_min = charge_start_min + charge_time_min
 
                 all_rows.append({
                     "bus": bus,
                     "activity": "charging",
-                    "start_seconds": charge_start,
-                    "end_seconds": charge_end,
-                    "energy consumption": -(charge_time_sec / 3600) * charge_rate,
-                    "start location": "EHVGAR",
-                    "end location": "EHVGAR"
+                    "start_seconds": prev_end,
+                    "end_seconds": start_s,
+                    "energy consumption": -(charge_time_min / 60) * charge_rate,  # convert min to hr for energy
+                    "start location": "ehvgar",
+                    "end location": "ehvgar"
                 })
+
                 battery = max_level
-                prev_end = charge_end
+                prev_end = charge_end_min * 60  # keep prev_end in seconds if used elsewhere
+
 
             row_dict = row.to_dict()
             all_rows.append(row_dict)

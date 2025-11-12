@@ -1,147 +1,90 @@
 import pandas as pd
-import matplotlib.pyplot as plt
+import numpy as np
 
-# === DATA INLEZEN ===
+# Bestandsnamen
+INPUT_FILE = "book1.xlsx"
+OUTPUT_FILE = "Book1_CLEANED.xlsx"
 
-def read_and_change_data():
+
+# De gewenste kolomnamen, zoals in het 'Bus Planning' bestand.
+# We gebruiken de namen die het meest lijken op de output van een planningstool.
+TARGET_COLUMNS = [
+    'bus',
+    'start time',
+    'end time',
+    'activity',
+    'line',
+    'start location',
+    'end location',
+    'time (min)',
+    'energy used (kWh)',
+    'battery start (kWh)',
+    'batterij end (kWh)'
+]
+
+def clean_and_convert_data(input_file, output_file, target_columns):
     """
-    Loads the data from the excel file
-    Changes all the start and end times to HH-MM-SS
-    Changes the routes that are ran in night time to 1 day later (+24*3600 minutes)
-
+    Laadt het Book1-bestand, past de kolommen aan en verwijdert ongewenste opmaakrijen.
     """
-    
-    df = pd.read_excel("Bus Planning-1.xlsx")
-    datum = "02-10-2025"
-    df["start time"] = pd.to_datetime(datum + " " + df["start time"], format="%d-%m-%Y %H:%M:%S")
-    df["end time"] = pd.to_datetime(datum + " " + df["end time"], format="%d-%m-%Y %H:%M:%S")
-    df["start_seconds"] = df["start time"].dt.hour * 3600 + df["start time"].dt.minute * 60 + df["start time"].dt.second
-    df["end_seconds"] = df["end time"].dt.hour * 3600 + df["end time"].dt.minute * 60 + df["end time"].dt.second
+    print(f"Laden van bestand: {input_file}...")
+    try:
+        # Laden van de CSV
+        df = pd.read_csv(input_file)
+        
+        # Oude kolomnamen (uit de snippet)
+        original_cols = df.columns.tolist()
+        
+        # Controleer of het aantal kolommen overeenkomt of dichtbij is
+        if len(original_cols) != len(target_columns):
+            print(f"WAARSCHUWING: Kolomtelling komt niet overeen. Verwacht: {len(target_columns)}, Gevonden: {len(original_cols)}")
+            print("Originele kolommen:", original_cols)
+            print("Doelkolommen:", target_columns)
+            
+            # Voer handmatige mapping uit op basis van de snippet/uploaded data
+            # Kolomnamen in Book1: ['bus', 'start time', 'end time', 'activity', 'line', 'start location', 'end location', 'time (min)', 'energy used (kWh)', 'battery start (kWh)', 'batterij end (kWh)']
+            # Deze komen gelukkig al overeen met de gewenste namen, we hernoemen alleen voor de zekerheid als er kleine verschillen zijn.
+            df.columns = target_columns[:len(original_cols)]
 
-    df.loc[df["end_seconds"] < df["start_seconds"], "end_seconds"] += 24 * 3600
-
-    night_rides = (df["start_seconds"] >= 0) & (df["start_seconds"] < 2 * 3600)
-    df.loc[night_rides, "start_seconds"] += 24 * 3600
-    df.loc[night_rides, "end_seconds"] += 24 * 3600
-
-    return df
-
-def replace_empty_gaps_with_idle(df):
-
-    filled_rows = []
-    for bus, bus_df in df.groupby("bus"):
-        bus_df = bus_df.sort_values("start_seconds").reset_index(drop=True)
-        prev_end = None
-        for _, row in bus_df.iterrows():
-            current_start = row["start_seconds"]
-            current_end = row["end_seconds"]
-
-            if prev_end is not None and current_start > prev_end:
-                filled_rows.append({
-                    "bus": bus,
-                    "start_seconds": prev_end,
-                    "end_seconds": current_start,
-                    "activity": "idle"
-                })
-
-            filled_rows.append(row.to_dict())
-            prev_end = current_end
-
-    df_filled = pd.DataFrame(filled_rows)
-
-    return df_filled 
+        else:
+             # Hernoem alle kolommen naar de doelkolommen
+            df.columns = target_columns
 
 
-# === VERPLAATS NACHTRITTEN NAAR DE VOLGENDE DAG ===
+        # 1. Verwijder rijen die dienen als scheidingsteken (zoals '---' of lege rijen)
+        # We controleren of de 'bus' kolom een geldig nummer bevat.
+        # Rijen met '---' of lege waarden in 'bus' worden verwijderd.
+        df_cleaned = df[pd.to_numeric(df['bus'], errors='coerce').notna()]
+        
+        # Log hoeveel rijen zijn verwijderd
+        removed_rows = len(df) - len(df_cleaned)
+        print(f"Aantal verwijderde opmaakrijen (bv. '---'): {removed_rows}")
 
-def night_rides_next_day(df_filled, df):
-    night_rides = (df_filled["start_seconds"] >= 0) & (df_filled["start_seconds"] < 2 * 3600)
-    df_filled.loc[night_rides, "start_seconds"] += 24 * 3600
-    df_filled.loc[night_rides, "end_seconds"] += 24 * 3600
-
-    
-    bus_max_end = df_filled.groupby("bus")["end_seconds"].max()
-    night_buses = bus_max_end[bus_max_end > 24 * 3600].index
-    day_buses = bus_max_end[bus_max_end <= 24 * 3600].index
-    bus_order = list(day_buses) + list(night_buses)
-    df_filled["bus"] = pd.Categorical(df_filled["bus"], categories=bus_order, ordered=True)
-
-
-    return df_filled
-
-# === VERWIJDER IDLE AAN HET EINDE EN BEGIN VAN DE DAG ===
-
-
-#df_filled = df_filled[~((df_filled["activity"] == "idle") & (df_filled["end_seconds"] == df_filled.groupby("bus")["end_seconds"].transform("max")))]
-#df_filled = df_filled[~((df_filled["activity"] == "idle") & (df_filled["start_seconds"] == df_filled.groupby("bus")["start_seconds"].transform("min")))]
+        # 2. Verwijder of converteer dikgedrukte tekst (niet zichtbaar in CSV, maar kan hoofdletters zijn)
+        # We zetten alle tekstkolommen in 'activity' en 'start/end location' naar kleine letters voor consistentie.
+        # Dit helpt bij het groeperen en visualiseren van data.
+        if 'activity' in df_cleaned.columns:
+            df_cleaned['activity'] = df_cleaned['activity'].astype(str).str.lower().str.strip()
+        if 'start location' in df_cleaned.columns:
+            df_cleaned['start location'] = df_cleaned['start location'].astype(str).str.lower().str.strip()
+        if 'end location' in df_cleaned.columns:
+            df_cleaned['end location'] = df_cleaned['end location'].astype(str).str.lower().str.strip()
 
 
+        # Sla het opgeschoonde bestand op
+        df_cleaned.to_csv(output_file, index=False)
+        
+        print(f"\nSucces! Het opgeschoonde bestand is opgeslagen als: {output_file}")
+        print("U kunt dit bestand nu gebruiken voor verdere analyse en het maken van de Gantt-grafiek.")
+        
+        return df_cleaned
 
+    except FileNotFoundError:
+        print(f"Fout: Bestand '{input_file}' niet gevonden. Zorg ervoor dat het bestand correct is geüpload.")
+        return None
+    except Exception as e:
+        print(f"Er is een onverwachte fout opgetreden: {e}")
+        return None
 
+# Voer de opschoning uit
+clean_and_convert_data(INPUT_FILE, OUTPUT_FILE, TARGET_COLUMNS)
 
-
-def change_operational_day(df_filled):
-
-    df_filled["start_shifted"] = df_filled["start_seconds"] - 4 * 3600
-    df_filled["end_shifted"] = df_filled["end_seconds"] - 4 * 3600
-    df_filled.loc[df_filled["start_shifted"] < 0, "start_shifted"] += 24 * 3600
-    df_filled.loc[df_filled["end_shifted"] < 0, "end_shifted"] += 24 * 3600
-
-    return df_filled
-
-# === PLOTTEN ===
-
-def plot_gantt_chart(df_filled):
-    activities = df_filled["activity"].unique()
-    colours = plt.cm.tab20.colors
-    colour_per_activity = {type: colours[i % len(colours)] for i, type in enumerate(activities)}
-
-    fig, ax = plt.subplots(figsize=(12, 5))
-    for _, row in df_filled.iterrows():
-        ax.barh(
-            row["bus"],
-            left=row["start_shifted"],
-            width=row["end_shifted"] - row["start_shifted"],
-            color=colour_per_activity[row["activity"]],
-            edgecolor="black",
-            alpha=0.7,
-        )
-
-    patches = [plt.Rectangle((0, 0), 1, 1, fc=colour_per_activity[type]) for type in activities]
-    ax.legend(patches, activities, loc="upper right")
-
-    # Tijdas: van 04:00 tot 02:00 (22 uur)
-    xticks = range(0, 22 * 3600 + 1, 3600)
-    xlabels = [f"{(t // 3600 + 4) % 24:02d}:00" for t in xticks]
-    ax.set_xticks(xticks)
-    ax.set_xticklabels(xlabels)
-    ax.set_xlim(0, 22 * 3600)
-    ax.set_xlabel("Time")
-    ax.set_ylabel("Bus number")
-    ax.set_title("Bus Planning lines 400 and 401 for 1 day")
-
-
-    # Zorg dat alle busnummers zichtbaar zijn op de y-as
-    bus_labels = sorted(df_filled["bus"].unique())
-    ax.set_yticks(bus_labels)
-    ax.set_yticklabels([str(b) for b in bus_labels])
-
-
-    plt.tight_layout()
-    plt.savefig('Bus Planning Gantt Chart.png')
-    plt.show()
-
-
-
-def main():
-    datum = "02-10-2025"
-    filepath = "Bus Planning-1.xlsx"
-
-    df = read_and_change_data()
-    df_filled = replace_empty_gaps_with_idle(df)
-    df_filled = change_operational_day(df_filled)
-    plot_gantt_chart(df_filled)
-
-
-if __name__ == "__main__":
-    main()

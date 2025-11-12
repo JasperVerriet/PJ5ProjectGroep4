@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
 
-from testencombined8 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
+from combined8 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
 
 # Streamlit page settings
 st.set_page_config(layout="wide")

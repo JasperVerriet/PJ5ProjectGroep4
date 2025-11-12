@@ -279,7 +279,7 @@ def Energy_Checker(df_filled):
 
         if feasible:
             messages.append(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
-            print(total_energy_used)
+
 
     return messages
 def plot_gantt_chart(df_filled):

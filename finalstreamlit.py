@@ -164,15 +164,32 @@ sum_col1, sum_col2, sum_col3 = st.columns([1,1,1])
 with sum_col1:
     if st.session_state.df_filled is not None:
         try:
+            # Netto energie (positief rijden + negatief laden)
             total_energy = st.session_state.df_filled.get("energy consumption", pd.Series([0])).sum()
-            st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        f'<b>Total energy used:</b><br>{total_energy:.2f} kWh</div>', unsafe_allow_html=True)
+
+            # 1 extra: laadenergie apart, positief weergegeven
+            charging_energy = -st.session_state.df_filled.loc[
+                st.session_state.df_filled["energy consumption"] < 0,
+                "energy consumption"
+            ].sum()
+
+            st.markdown(
+                f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                f'<b>Charging energy:</b><br>{charging_energy:.2f} kWh</div>',
+                unsafe_allow_html=True
+            )
         except Exception:
-            st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                        'Total energy used:<br>N/A</div>', unsafe_allow_html=True)
+            st.markdown(
+                '<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                'Total energy used:<br>N/A</div>',
+                unsafe_allow_html=True
+            )
     else:
-        st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                    'Total energy used:<br>—</div>', unsafe_allow_html=True)
+        st.markdown(
+            '<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            'Total energy used:<br>—</div>',
+            unsafe_allow_html=True
+        )
 
 with sum_col2:
     if st.session_state.df_filled is not None:

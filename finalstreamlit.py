@@ -131,26 +131,63 @@ with result_col:
                 st.write(o)
         else:
             st.success("✅ No overlap was found in the planning.")
-        # Energy result per bus (if available)
+        # Energy result per bus (if available) — show per-bus status with icons
         energy_output = st.session_state.get("energy_output", None)
         if energy_output:
             st.markdown("#### Energy result per bus")
             try:
-                # Common iterable results make to a string per line
-                if isinstance(energy_output, (list, tuple, pd.Series)):
-                    for line in energy_output:
-                        st.write(str(line))
-                # Dict-like results
-                elif isinstance(energy_output, dict):
-                    for k, v in energy_output.items():
-                        st.write("Bus " + str(k) + ": " + str(v))
-                # Display if not iterable
+                # Normalize into a list of strings
+                if isinstance(energy_output, dict):
+                    lines = [f"Bus {k}: {v}" for k, v in energy_output.items()]
+                elif isinstance(energy_output, (list, tuple, pd.Series)):
+                    lines = [str(x) for x in energy_output]
                 else:
                     try:
-                        for line in energy_output:
-                            st.write(str(line))
+                        lines = [str(x) for x in energy_output]
                     except Exception:
-                        st.write(str(energy_output))
+                        lines = [str(energy_output)]
+
+                import re
+                bus_status = {}
+                other_lines = []
+                for s in lines:
+                    # Try to detect "feasible" messages like "Bus plan for Bus 1 is feasible..."
+                    m1 = re.search(r"Bus plan for Bus\s*(\d+)\D.*feasible", s, flags=re.IGNORECASE)
+                    # Try to detect messages like "Bus 1: ..."
+                    m2 = re.search(r"Bus\s*(\d+):", s)
+                    if m1:
+                        bid = int(m1.group(1))
+                        bus_status[bid] = (True, s)
+                    elif m2:
+                        bid = int(m2.group(1))
+                        # If already recorded as feasible, only overwrite if this message indicates an issue
+                        is_issue = bool(re.search(r"infeasible|will drop|below", s, flags=re.IGNORECASE))
+                        if bid in bus_status:
+                            if is_issue:
+                                bus_status[bid] = (False, s)
+                        else:
+                            bus_status[bid] = (not is_issue, s)
+                    else:
+                        other_lines.append(s)
+
+                if bus_status:
+                    overall_ok = all(status for status, _ in bus_status.values())
+                    if overall_ok:
+                        st.success("✅ All buses are feasible.")
+                    else:
+                        st.markdown("#### ❌ Energy issues found")
+
+                    for bid in sorted(bus_status):
+                        status, msg = bus_status[bid]
+                        if status:
+                            st.markdown(f"**✅ Bus {bid}:** {msg}")
+                        else:
+                            st.markdown(f"**❌ Bus {bid}:** {msg}")
+
+                # Show any extra lines that couldn't be parsed per-bus
+                for l in other_lines:
+                    st.write(l)
+
             except Exception as e:
                 st.error("Error displaying energy results: " + str(e))
         else:

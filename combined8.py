@@ -258,9 +258,7 @@ def Energy_Checker(df_filled):
             energy_consumption = route["energy consumption"]
 
             if current_battery_level - energy_consumption < min_battery_level:
-                messages.append(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
                 feasible = False
-                break
 
             if route.get("activity", "") == 'idle':
                 idle_period = (route["end_seconds"] - route["start_seconds"]) / 3600
@@ -279,6 +277,17 @@ def Energy_Checker(df_filled):
 
         if feasible:
             messages.append(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
+        
+        if feasible == False:
+            messages.append(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
+
+    messages.append(f"Total Energy Used is {total_energy_used}")
+    messages.append(f"Total Charge Time: {total_charge_time}")
+    messages.append(f"Total Idle Time:{total_idle_time}")
+    messages.append(f"Amount of Buses used: {bus_id}")
+
+
+
 
     return messages
 def plot_gantt_chart(df_filled):

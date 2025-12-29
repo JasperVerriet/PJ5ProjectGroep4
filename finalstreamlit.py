@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
 
-from combined8 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart
+from combined8 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart, Timetable_comparison
 
 # Streamlit page settings
 st.set_page_config(layout="wide")
@@ -25,15 +25,27 @@ if "energy_output" not in st.session_state:
     st.session_state.energy_output = None
 if "overlaps" not in st.session_state:
     st.session_state.overlaps = None
+# Timetable uploader/state
+if "show_timetable_uploader" not in st.session_state:
+    st.session_state.show_timetable_uploader = False
+if "timetable_file" not in st.session_state:
+    st.session_state.timetable_file = None
+if "timetable_output" not in st.session_state:
+    st.session_state.timetable_output = None
 
 # Top buttons
-col1, col2, col3 = st.columns([1,1,1])
+col1, col2, col3, col4 = st.columns([1,1,1,1])
 with col1:
     insert_clicked = st.button("Insert planning")
 with col2:
-    calc_clicked = st.button("Calculate feasibility")
+    timetable_clicked = st.button("Load timetable")
 with col3:
+    calc_clicked = st.button("Calculate feasibility")
+with col4:
     save_clicked = st.button("Save planning")
+
+if timetable_clicked:
+    st.session_state.show_timetable_uploader = True
 
 if insert_clicked:
     st.session_state.show_uploader = True
@@ -50,6 +62,35 @@ with main_col:
         if uploaded is not None:
             st.session_state.uploaded_file = uploaded
             st.success("file geüploaded. click 'Calculate feasibility' to proces.")
+
+    # Timetable uploader (optional)
+    if st.session_state.show_timetable_uploader:
+        timetable_up = st.file_uploader("Choose Timetable.xlsx", type=["xlsx"], key="timetable_uploader")
+        if timetable_up is not None:
+            st.session_state.timetable_file = timetable_up
+            try:
+                with open("Timetable.xlsx", "wb") as f:
+                    f.write(timetable_up.getvalue())
+                st.success("Timetable uploaded and saved as 'Timetable.xlsx'.")
+            except Exception as e:
+                st.error(f"Error saving timetable: {e}")
+
+            # Run comparison immediately if a processed schedule exists
+            if st.session_state.df_filled is not None:
+                try:
+                    import io, sys
+                    buf = io.StringIO()
+                    old_stdout = sys.stdout
+                    sys.stdout = buf
+                    try:
+                        Timetable_comparison(st.session_state.df_filled)
+                    finally:
+                        sys.stdout = old_stdout
+                    st.session_state.timetable_output = buf.getvalue()
+                    st.success("Timetable comparison completed.")
+                except Exception as e:
+                    st.error(f"Error running timetable comparison: {e}")
+                    st.session_state.timetable_output = None
 
     # If the user has pressed calculate or the file has already been uploaded and calc_clicked. The processing will be done
     if calc_clicked:
@@ -113,6 +154,21 @@ with main_col:
                     except Exception:
                         st.session_state.energy_output = None
                     energy_output = st.session_state.get("energy_output", None)
+
+                    # Run timetable comparison automatically if a timetable has been uploaded or exists locally
+                    try:
+                        import os, io, sys
+                        if st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx"):
+                            buf = io.StringIO()
+                            old_stdout = sys.stdout
+                            sys.stdout = buf
+                            try:
+                                Timetable_comparison(st.session_state.df_filled)
+                            finally:
+                                sys.stdout = old_stdout
+                            st.session_state.timetable_output = buf.getvalue()
+                    except Exception:
+                        st.session_state.timetable_output = None
         
 with result_col:
     st.markdown("""
@@ -192,6 +248,13 @@ with result_col:
                 st.error("Error displaying energy results: " + str(e))
         else:
             st.info("No energie-check.")
+
+        # Timetable comparison output (if available)
+        timetable_out = st.session_state.get("timetable_output", None)
+        if timetable_out:
+            st.markdown("#### Timetable comparison result")
+            st.text(timetable_out)
+
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown("---")

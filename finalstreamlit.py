@@ -159,8 +159,8 @@ with result_col:
 
 st.markdown("---")
 
-# Buttons below (total energy, idle time, charging time)
-sum_col1, sum_col2, sum_col3 = st.columns([1,1,1])
+# Buttons below (total energy, idle time, charging time, busses used)
+sum_col1, sum_col2, sum_col3, sum_col4 = st.columns([1,1,1,1])
 with sum_col1:
     if st.session_state.df_filled is not None:
         try:
@@ -230,6 +230,24 @@ with sum_col3:
     else:
         st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
                     'Charging time:<br>—</div>', unsafe_allow_html=True)
+
+with sum_col4:
+    if st.session_state.df_filled is not None:
+        try:
+            # Count unique buses used in the Gantt chart
+            try:
+                buses_used = int(st.session_state.df_filled["bus"].nunique())
+            except Exception:
+                buses_used = len(st.session_state.df_filled["bus"].unique())
+
+            st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                        f'<b>Busses used:</b><br>{buses_used}</div>', unsafe_allow_html=True)
+        except Exception:
+            st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                        'Busses used:<br>N/A</div>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                    'Busses used:<br>—</div>', unsafe_allow_html=True)
 
 # Save planning: create a PDF and offer a download
 if save_clicked:

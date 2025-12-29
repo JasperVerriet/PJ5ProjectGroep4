@@ -252,8 +252,14 @@ with result_col:
         # Timetable comparison output (if available)
         timetable_out = st.session_state.get("timetable_output", None)
         if timetable_out:
-            st.markdown("#### Timetable comparison result")
-            st.text(timetable_out)
+            # Determine if timetable comparison was successful based on printed message
+            if "corresponds to the timetable" in timetable_out.lower():
+                st.success("✅ Timetable comparison: schedule matches the timetable.")
+                # still show the (short) output for context
+                st.text(timetable_out)
+            else:
+                st.markdown("#### ❌ Timetable comparison: mismatches found")
+                st.text(timetable_out)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
@@ -274,19 +280,19 @@ with sum_col1:
             ].sum()
 
             st.markdown(
-                f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                 f'<b>Charging energy:</b><br>{charging_energy:.2f} kWh</div>',
                 unsafe_allow_html=True
             )
         except Exception:
             st.markdown(
-                '<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                '<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                 'Total energy used:<br>N/A</div>',
                 unsafe_allow_html=True
             )
     else:
         st.markdown(
-            '<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            '<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
             'Total energy used:<br>—</div>',
             unsafe_allow_html=True
         )
@@ -299,16 +305,16 @@ with sum_col2:
                 idle_seconds = (st.session_state.df_filled.loc[idle_mask, "end_shifted"] - st.session_state.df_filled.loc[idle_mask, "start_shifted"]).sum()
                 h = int(idle_seconds // 3600)
                 m = int((idle_seconds % 3600) // 60)
-                st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                             f'<b>Idle time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
             else:
-                st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                             'Idle time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
         except Exception:
-            st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                         'Idle time:<br>N/A</div>', unsafe_allow_html=True)
     else:
-        st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+        st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                     'Idle time:<br>—</div>', unsafe_allow_html=True)
 
 with sum_col3:
@@ -319,16 +325,16 @@ with sum_col3:
                 charging_seconds = (st.session_state.df_filled.loc[charging_mask, "end_shifted"] - st.session_state.df_filled.loc[charging_mask, "start_shifted"]).sum()
                 h = int(charging_seconds // 3600)
                 m = int((charging_seconds % 3600) // 60)
-                st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                             f'<b>Charging time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
             else:
-                st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+                st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                             'Charging time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
         except Exception:
-            st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                         'Charging time:<br>N/A</div>', unsafe_allow_html=True)
     else:
-        st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+        st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                     'Charging time:<br>—</div>', unsafe_allow_html=True)
 
 with sum_col4:
@@ -340,10 +346,10 @@ with sum_col4:
             except Exception:
                 buses_used = len(st.session_state.df_filled["bus"].unique())
 
-            st.markdown(f'<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                         f'<b>Busses used:</b><br>{buses_used}</div>', unsafe_allow_html=True)
         except Exception:
-            st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
+            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
                         'Busses used:<br>N/A</div>', unsafe_allow_html=True)
     else:
         st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'

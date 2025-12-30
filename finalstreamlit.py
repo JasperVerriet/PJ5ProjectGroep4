@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from io import BytesIO
 from matplotlib.backends.backend_pdf import PdfPages
+import os
 
 from combined8 import report_missing_data, change_data, Overlap_Checker, Energy_Checker, plot_gantt_chart, Timetable_comparison
 
@@ -25,22 +26,28 @@ if "energy_output" not in st.session_state:
     st.session_state.energy_output = None
 if "overlaps" not in st.session_state:
     st.session_state.overlaps = None
-# Timetable uploader/state
+# Timetable uploader/state (required — always visible)
 if "show_timetable_uploader" not in st.session_state:
-    st.session_state.show_timetable_uploader = False
+    # Make the timetable uploader visible by default (timetable is required)
+    st.session_state.show_timetable_uploader = True
 if "timetable_file" not in st.session_state:
     st.session_state.timetable_file = None
 if "timetable_output" not in st.session_state:
     st.session_state.timetable_output = None
 
 # Top buttons
+# Determine if a timetable has been loaded (in session state or as a local Timetable.xlsx file)
+has_timetable = st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx")
 col1, col2, col3, col4 = st.columns([1,1,1,1])
 with col1:
     insert_clicked = st.button("Insert planning")
 with col2:
     timetable_clicked = st.button("Load timetable")
 with col3:
-    calc_clicked = st.button("Calculate feasibility")
+    # Disable calculate until a timetable is present
+    calc_clicked = st.button("Calculate feasibility", disabled=not has_timetable, key="calc_button")
+    if not has_timetable:
+        st.caption("Disabled — load timetable first using 'Load timetable'.")
 with col4:
     save_clicked = st.button("Save planning")
 
@@ -58,20 +65,40 @@ main_col, result_col = st.columns([2,1])
 with main_col:
     st.title("Bus Planning lines 400 and 401 for 1 day")
     if st.session_state.show_uploader:
-        uploaded = st.file_uploader("choice an Excel-file", type=["xlsx"], key="uploader")
+        uploaded = st.file_uploader("Choose an Excel file", type=["xlsx"], key="uploader")
         if uploaded is not None:
             st.session_state.uploaded_file = uploaded
-            st.success("file geüploaded. click 'Calculate feasibility' to proces.")
+            import os
+            has_timetable = st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx")
+            # Always confirm upload, but give a clear warning when the timetable is missing
+            st.success("File uploaded.")
+            if not has_timetable:
+                st.warning("Timetable not found. Please load the timetable using 'Load timetable' before calculating feasibility.")
+                # Small convenience - open the timetable uploader for the user
+                if st.button("Open timetable uploader", key="open_timetable_from_upload"):
+                    st.session_state.show_timetable_uploader = True
+            else:
+                st.info("if Timetable present — click 'Calculate feasibility' to process the uploaded schedule.")
 
-    # Timetable uploader (optional)
+    # Timetable uploader (required — always visible)
     if st.session_state.show_timetable_uploader:
-        timetable_up = st.file_uploader("Choose Timetable.xlsx", type=["xlsx"], key="timetable_uploader")
+        timetable_up = st.file_uploader("Choose Timetable.xlsx (required)", type=["xlsx"], key="timetable_uploader")
+
+        # Show current timetable status
+        has_timetable_local = st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx")
+        if has_timetable_local:
+            st.info("Timetable loaded. You can now calculate feasibility.")
+        else:
+            st.warning("Timetable is required to calculate feasibility — please upload it below.")
+
         if timetable_up is not None:
             st.session_state.timetable_file = timetable_up
             try:
                 with open("Timetable.xlsx", "wb") as f:
                     f.write(timetable_up.getvalue())
                 st.success("Timetable uploaded and saved as 'Timetable.xlsx'.")
+                if st.session_state.get("uploaded_file") is not None:
+                    st.success("Timetable loaded. Click 'Calculate feasibility' to process the uploaded schedule.")
             except Exception as e:
                 st.error(f"Error saving timetable: {e}")
 
@@ -94,8 +121,12 @@ with main_col:
 
     # If the user has pressed calculate or the file has already been uploaded and calc_clicked. The processing will be done
     if calc_clicked:
+        import os
+        has_timetable = st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx")
         if st.session_state.uploaded_file is None:
-            st.error("Upload first an Excel-file with 'Insert planning'.")
+            st.error("Upload an Excel file first using 'Insert planning'.")
+        elif not has_timetable:
+            st.error("Please load the timetable first using 'Load timetable' before calculating feasibility.")
         else:
             try:
                 df = pd.read_excel(st.session_state.uploaded_file, engine="openpyxl")
@@ -173,11 +204,11 @@ with main_col:
 with result_col:
     st.markdown("""
     <div style="border:3px solid #FFD700; border-radius:12px; padding:12px; background-color:#FFFBEA;">
-    <h4 style="margin-top:0;">Resultaten</h4>
+    <h4 style="margin-top:0;">Results</h4>
     """, unsafe_allow_html=True)
 
     if st.session_state.df_filled is None:
-        st.info("No processed schedule yet. Click 'Insert schedule' and then 'Calculate feasibility'.")
+        st.info("No processed schedule yet. Click 'Insert schedule' and then 'Load timetable' and then 'Calculate feasibility'.")
     else:
         # Overlap result
         overlaps = st.session_state.overlaps
@@ -247,7 +278,7 @@ with result_col:
             except Exception as e:
                 st.error("Error displaying energy results: " + str(e))
         else:
-            st.info("No energie-check.")
+            st.info("No energy check.")
 
         # Timetable comparison output (if available)
         timetable_out = st.session_state.get("timetable_output", None)
@@ -265,95 +296,79 @@ with result_col:
 
 st.markdown("---")
 
-# Buttons below (total energy, idle time, charging time, busses used)
+# Buttons below (Buses used, total energy, idle time, charging time)
 sum_col1, sum_col2, sum_col3, sum_col4 = st.columns([1,1,1,1])
+box_style = 'background-color:#F0F2F6; color:#111; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #ddd;'
+
+# Compute energy KPIs using the same logic as in combined8 -> ensures KPI numbers match Results
+def compute_energy_kpis(df):
+    charge_per_hour = 450
+    total_energy_used = 0.0
+    charging_energy = 0.0
+    total_charge_time = 0.0
+    total_idle_time = 0.0
+    try:
+        dfc = df.copy()
+        for _, row in dfc.iterrows():
+            ec = float(row.get('energy consumption', 0.0) or 0.0)
+            if ec > 0:
+                total_energy_used += ec
+            else:
+                charging_energy += -ec
+                total_charge_time += (-ec) / charge_per_hour
+            if row.get('activity', '') == 'idle':
+                total_idle_time += (row['end_seconds'] - row['start_seconds']) / 3600
+    except Exception:
+        pass
+    return total_energy_used, charging_energy, total_charge_time, total_idle_time
+
 with sum_col1:
     if st.session_state.df_filled is not None:
         try:
-            # Netto energie (positief rijden + negatief laden)
-            total_energy = st.session_state.df_filled.get("energy consumption", pd.Series([0])).sum()
-
-            # 1 extra: laadenergie apart, positief weergegeven
-            charging_energy = -st.session_state.df_filled.loc[
-                st.session_state.df_filled["energy consumption"] < 0,
-                "energy consumption"
-            ].sum()
-
-            st.markdown(
-                f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                f'<b>Charging energy:</b><br>{charging_energy:.2f} kWh</div>',
-                unsafe_allow_html=True
-            )
-        except Exception:
-            st.markdown(
-                '<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                'Total energy used:<br>N/A</div>',
-                unsafe_allow_html=True
-            )
-    else:
-        st.markdown(
-            '<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-            'Total energy used:<br>—</div>',
-            unsafe_allow_html=True
-        )
-
-with sum_col2:
-    if st.session_state.df_filled is not None:
-        try:
-            idle_mask = st.session_state.df_filled.get("activity", pd.Series()).eq("idle")
-            if idle_mask.any():
-                idle_seconds = (st.session_state.df_filled.loc[idle_mask, "end_shifted"] - st.session_state.df_filled.loc[idle_mask, "start_shifted"]).sum()
-                h = int(idle_seconds // 3600)
-                m = int((idle_seconds % 3600) // 60)
-                st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                            f'<b>Idle time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                            'Idle time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
-        except Exception:
-            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                        'Idle time:<br>N/A</div>', unsafe_allow_html=True)
-    else:
-        st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                    'Idle time:<br>—</div>', unsafe_allow_html=True)
-
-with sum_col3:
-    if st.session_state.df_filled is not None:
-        try:
-            charging_mask = (st.session_state.df_filled.get("activity", pd.Series()) == "charging") | (st.session_state.df_filled.get("energy consumption", pd.Series()) < 0)
-            if charging_mask.any():
-                charging_seconds = (st.session_state.df_filled.loc[charging_mask, "end_shifted"] - st.session_state.df_filled.loc[charging_mask, "start_shifted"]).sum()
-                h = int(charging_seconds // 3600)
-                m = int((charging_seconds % 3600) // 60)
-                st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                            f'<b>Charging time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
-            else:
-                st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                            'Charging time:<br>0 H : 0 M</div>', unsafe_allow_html=True)
-        except Exception:
-            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                        'Charging time:<br>N/A</div>', unsafe_allow_html=True)
-    else:
-        st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                    'Charging time:<br>—</div>', unsafe_allow_html=True)
-
-with sum_col4:
-    if st.session_state.df_filled is not None:
-        try:
-            # Count unique buses used in the Gantt chart
             try:
                 buses_used = int(st.session_state.df_filled["bus"].nunique())
             except Exception:
                 buses_used = len(st.session_state.df_filled["bus"].unique())
 
-            st.markdown(f'<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                        f'<b>Busses used:</b><br>{buses_used}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="{box_style}"><b>Buses used:</b><br>{buses_used}</div>', unsafe_allow_html=True)
         except Exception:
-            st.markdown('<div style="background-color:#030600; color:#FFFFFF; border-radius:15px; padding:20px; text-align:center; font-weight:600; border:1px solid #444;">'
-                        'Busses used:<br>N/A</div>', unsafe_allow_html=True)
+            st.markdown(f'<div style="{box_style}">Buses used:<br>N/A</div>', unsafe_allow_html=True)
     else:
-        st.markdown('<div style="background-color:#030600; border-radius:15px; padding:20px; text-align:center;">'
-                    'Busses used:<br>—</div>', unsafe_allow_html=True)
+        st.markdown(f'<div style="{box_style}">Buses used:<br>—</div>', unsafe_allow_html=True)
+
+with sum_col2:
+    if st.session_state.df_filled is not None:
+        try:
+            te, ce, ctime, itime = compute_energy_kpis(st.session_state.df_filled)
+            st.markdown(f'<div style="{box_style}"><b>Total energy used:</b><br>{te:.2f} kWh<br><b>Charging energy:</b><br>{ce:.2f} kWh</div>', unsafe_allow_html=True)
+        except Exception:
+            st.markdown(f'<div style="{box_style}">Total energy used:<br>N/A</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div style="{box_style}">Total energy used:<br>—</div>', unsafe_allow_html=True)
+
+with sum_col3:
+    if st.session_state.df_filled is not None:
+        try:
+            te, ce, ctime, itime = compute_energy_kpis(st.session_state.df_filled)
+            h = int(itime)
+            m = int(round((itime - h) * 60))
+            st.markdown(f'<div style="{box_style}"><b>Idle time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
+        except Exception:
+            st.markdown(f'<div style="{box_style}">Idle time:<br>N/A</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div style="{box_style}">Idle time:<br>—</div>', unsafe_allow_html=True)
+
+with sum_col4:
+    if st.session_state.df_filled is not None:
+        try:
+            te, ce, ctime, itime = compute_energy_kpis(st.session_state.df_filled)
+            h = int(ctime)
+            m = int(round((ctime - h) * 60))
+            st.markdown(f'<div style="{box_style}"><b>Charging time:</b><br>{h}H : {m}M</div>', unsafe_allow_html=True)
+        except Exception:
+            st.markdown(f'<div style="{box_style}">Charging time:<br>N/A</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div style="{box_style}">Charging time:<br>—</div>', unsafe_allow_html=True)
 
 # Save planning: create a PDF and offer a download
 if save_clicked:

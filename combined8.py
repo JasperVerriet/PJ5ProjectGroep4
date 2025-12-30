@@ -7,10 +7,11 @@ def Data_Collection():
     Loads the data from the excel file
     Returns the DataFrame
     """
-    file_path = input("Put your Excel file in here: ")
-    # Gebruik 'openpyxl' engine voor betere compatibiliteit
+    file_path = input("Put your Bus plan Excel file in here: ")
     df = pd.read_excel(file_path, engine='openpyxl')
-    return df
+    file_path2 = input("Put your Timetable Excel file in here: ")
+    table = pd.read_excel(file_path2, engine='openpyxl')
+    return df, table
 
 def report_missing_data(df):
     """
@@ -38,10 +39,6 @@ def change_data(df):
         
         datum = "31-10-2025"
         
-        # OPLOSSING VOOR DE FOUTMELDING:
-        # Converteer de tijdskolommen expliciet naar string (HH:MM:SS) 
-        # voordat je ze met de datum concateneert. Dit voorkomt de fout 
-        # bij het inlezen van datetime.time objecten uit Excel.
         df["start time"] = df["start time"].astype(str)
         df["end time"] = df["end time"].astype(str)
 
@@ -174,7 +171,7 @@ def Overlap_Checker(df_filled):
     
     return overlap_results
 
-def Timetable_comparison(df):
+def Timetable_comparison(df, table):
     """
     Function to check if the bus plan correctly compares to the time table.
     The file name of the timetable should always be 'Timetable.xlsx'
@@ -183,7 +180,6 @@ def Timetable_comparison(df):
     
     # Gebruik de originele Timetable.xlsx, welke bij mij lokaal als CSV beschikbaar is.
     # Als deze file in jouw omgeving Timetable.xlsx heet, werkt de read_excel
-    table = pd.read_excel('Timetable.xlsx', engine='openpyxl')
     table = table.copy()
     dfc = df.copy()
 
@@ -275,15 +271,22 @@ def Energy_Checker(df_filled):
         total_charge_time += total_charge_time_on_route
         total_idle_time += idle_per_route
 
+
+
         if feasible:
             messages.append(f"Bus plan for Bus {bus_id} is feasible. Amount of energy used: {total_energy_used_on_route:.2f} kWh")
         
         if feasible == False:
             messages.append(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
 
-    messages.append(f"Total Energy Used is {total_energy_used}")
-    messages.append(f"Total Charge Time: {total_charge_time}")
-    messages.append(f"Total Idle Time:{total_idle_time}")
+    charge_hours = int(total_charge_time)
+    charge_minutes = int((total_charge_time - charge_hours) * 60)
+    idle_hours = int(total_idle_time)
+    idle_minutes = int((total_idle_time - idle_hours) * 60)
+
+    messages.append(f"Total Energy Used is: {round(total_energy_used,2)} kWh")
+    messages.append(f"Total Charge Time: {abs(charge_hours)} hours and {abs(charge_minutes)} minutes")
+    messages.append(f"Total Idle Time: {idle_hours} hours and {idle_minutes} minutes")
     messages.append(f"Amount of Buses used: {bus_id}")
 
 
@@ -335,7 +338,7 @@ def plot_gantt_chart(df_filled):
 
 
 def main():
-    df = Data_Collection()
+    df, table = Data_Collection()
     report_missing_data(df)
 
     df_filled =change_data(df)
@@ -343,7 +346,7 @@ def main():
     
     Overlap_Checker(df_filled)     
     
-    Timetable_comparison(df_filled)
+    Timetable_comparison(df_filled, table)
     
     messages = Energy_Checker(df_filled)
     print("\n--- Energy Checker Results ---")

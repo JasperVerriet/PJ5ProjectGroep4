@@ -279,10 +279,10 @@ def Energy_Checker(df_filled):
         if feasible == False:
             messages.append(f"Bus {bus_id}: Battery level will drop below 10% during route {route_index+1}. Route is infeasible.")
 
-    charge_hours = int(total_charge_time)
-    charge_minutes = int((total_charge_time - charge_hours) * 60)
-    idle_hours = int(total_idle_time)
-    idle_minutes = int((total_idle_time - idle_hours) * 60)
+    charge_hours = round(total_charge_time)
+    charge_minutes = round((total_charge_time - charge_hours) * 60)
+    idle_hours = round(total_idle_time)
+    idle_minutes = round((total_idle_time - idle_hours) * 60)
 
     messages.append(f"Total Energy Used is: {round(total_energy_used,2)} kWh")
     messages.append(f"Total Charge Time: {abs(charge_hours)} hours and {abs(charge_minutes)} minutes")

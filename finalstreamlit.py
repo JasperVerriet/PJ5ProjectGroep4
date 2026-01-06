@@ -87,7 +87,7 @@ with main_col:
         # Show current timetable status
         has_timetable_local = st.session_state.get("timetable_file") is not None or os.path.exists("Timetable.xlsx")
         if has_timetable_local:
-            st.info("Timetable loaded. You can now calculate feasibility.")
+            st.info("Timetable is required to calculate feasibility — please upload it below.")
         else:
             st.warning("Timetable is required to calculate feasibility — please upload it below.")
 
@@ -248,7 +248,7 @@ with result_col:
         # Overlap result
         overlaps = st.session_state.overlaps
         if overlaps:
-            st.markdown("#### ❌ Overlappingen found")
+            st.markdown("#### ❌ Overlap found")
             for o in overlaps:
                 st.write(o)
         else:

@@ -202,10 +202,7 @@ with main_col:
                         st.session_state.timetable_output = None
         
 with result_col:
-    st.markdown("""
-    <div style="border:3px solid #FFD700; border-radius:12px; padding:12px; background-color:#FFFBEA;">
-    <h4 style="margin-top:0;">Results</h4>
-    """, unsafe_allow_html=True)
+    st.header("Results")
 
     if st.session_state.df_filled is None:
         st.info("No processed schedule yet. Click 'Insert schedule' and then 'Load timetable' and then 'Calculate feasibility'.")
@@ -292,7 +289,7 @@ with result_col:
                 st.markdown("#### ❌ Timetable comparison: mismatches found")
                 st.text(timetable_out)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+   
 
 st.markdown("---")
 

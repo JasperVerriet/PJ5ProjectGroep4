@@ -171,6 +171,44 @@ with main_col:
                             fig = plt.gcf()
                         st.session_state.gantt_fig = fig
                         st.pyplot(fig)
+
+                        # Bar plot: energy consumption per bus (share of total)
+                        try:
+                            df_energy = st.session_state.df_filled
+                            if 'energy consumption' in df_energy.columns:
+                                cons = df_energy[df_energy['energy consumption'] > 0].groupby('bus')['energy consumption'].sum()
+                            else:
+                                cons = pd.Series(dtype=float)
+
+                            if cons.empty:
+                                st.info("No positive energy consumption data available to plot per-bus usage.")
+                            else:
+                                total = cons.sum()
+                                perc = (cons / total) * 100
+                                cons_df = pd.DataFrame({'kWh': cons, 'percentage': perc}).sort_values('kWh', ascending=False)
+
+                                # Size: expand width based on number of buses for spacing, make height smaller
+                                fig2_width = max(6, len(cons_df) * 0.6)
+                                fig2_height = 2.2
+                                fig2, ax2 = plt.subplots(figsize=(fig2_width, fig2_height))
+
+                                # Use sequential numeric x-axis labels (1,2,3,...) and map them to actual bus IDs in a caption
+                                positions = np.arange(1, len(cons_df) + 1)
+                                bars = ax2.bar(positions, cons_df['kWh'], width=0.6, color='tab:blue')
+                                ax2.set_ylabel('Energy consumption (kWh)')
+                                ax2.set_xlabel('Bus (number)')
+                                ax2.set_title('Energy consumption per bus (share of total)')
+                                ax2.set_xticks(positions)
+                                ax2.set_xticklabels(positions)
+                                ax2.grid(axis='y', linestyle='--', alpha=0.5)
+
+                                for pos, height, pct in zip(positions, cons_df['kWh'], cons_df['percentage']):
+                                    ax2.text(pos, height * 1.01, f'{pct:.1f}%', ha='center', va='bottom', fontsize=9)
+
+                                plt.tight_layout()
+                                st.pyplot(fig2)
+                        except Exception as e:
+                            st.error(f"Error plotting per-bus energy: {e}")
                     except Exception as e:
                         st.error(f"Error with drawing Gantt chart: {e}")
                         st.session_state.gantt_fig = None

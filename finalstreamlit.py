@@ -430,7 +430,7 @@ if save_clicked:
                 # Energy
                 if st.session_state.energy_output:
                     text_lines.append("")
-                    text_lines.append("Energie-checker result:")
+                    text_lines.append("Energy-checker result:")
                     if isinstance(st.session_state.energy_output, (list, tuple)):
                         text_lines.extend([str(x) for x in st.session_state.energy_output])
                     else:
